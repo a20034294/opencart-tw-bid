@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <code>Timezone Setting</code>
+    <name>Timezone Setting</name>
+    <version>1.0</version>
+    <author>Koopy Brian + OSEC.tw</author>
+    <file path="admin/controller/setting/setting.php">
+        <operation>
+            <search><![CDATA[
+            $this->response->setOutput($this->load->view('setting/setting', $data));
+            ]]></search>
+            <add position="before"><![CDATA[
+            $data['config_timezone'] = $this->config->get('config_timezone');
+            $data['timezones'] = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/language/en-gb/setting/setting.php">
+        <operation>
+            <search><![CDATA[
+            $_['entry_country']                  = 'Country';
+            ]]></search>
+            <add position="before"><![CDATA[
+            $_['entry_timezone']                 = 'Timezone';
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/language/zh-TW/setting/setting.php">
+        <operation>
+            <search><![CDATA[
+            $_['entry_country']                  = '國別';
+            ]]></search>
+            <add position="before"><![CDATA[
+            $_['entry_timezone']                 = '時區';
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/view/template/setting/setting.twig">
+        <operation>
+            <search><![CDATA[
+            <div class="tab-pane" id="tab-local">
+            ]]></search>
+            <add position="after"><![CDATA[
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-timezone">{{ entry_timezone }}</label>
+                <div class="col-sm-10">
+                  <select name="config_timezone" id="input-timezone" class="form-control">
+                    {% for timezone in timezones %}
+                    {% if timezone  == config_timezone %}
+                    
+                    <option value="{{ timezone }}" selected="selected">{{ timezone }}</option>
+                    
+                    {% else %}
+                    
+                    <option value="{{ timezone }}">{{ timezone }}</option>
+                    
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            ]]></add>
+        </operation>
+    </file>
+    <file path="system/library/db.php">
+        <operation>
+            <search><![CDATA[
+            $this->adaptor = new $class($hostname, $username, $password, $database, $port);
+            ]]></search>
+            <add position="after"><![CDATA[
+            $timezone = 'Asia/Taipei';
+            if (defined('DB_PREFIX')) {
+                $query = $this->adaptor->query("SELECT value FROM " . DB_PREFIX . "setting WHERE `code` = 'config' AND `key` = 'config_timezone' ");
+                if (!empty($query->row)) {
+                    $timezone = $query->row['value'];
+                }    
+            }
+            
+            date_default_timezone_set($timezone);
+
+            $now = new DateTime();
+            $mins = $now->getOffset() / 60;
+            $sgn = ($mins < 0 ? -1 : 1);
+            $mins = abs($mins);
+            $hrs = floor($mins / 60);
+            $mins -= $hrs * 60;
+            $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
+            $this->adaptor->query("SET time_zone='" . $offset . "'");
+            ]]></add>
+        </operation>
+    </file>
+</modification>

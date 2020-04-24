@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>TMD Custom Header Module</name>
+	<version>3.x</version>
+	<code>#COHMF011</code>
+	<author>TMD(opencartextensions.in)</author>
+	<link>http://opencartextensions.in/</link>
+	
+	<file path="admin/language/*/common/column_left.php">
+		<operation error="skip">
+			<search ><![CDATA[// Text]]></search>
+			<add position="after"><![CDATA[
+			// HeaderMenu
+			$_['text_menu']                  = '主要選單';
+			$_['text_headermenu']            = '自訂選單';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/controller/common/column_left.php">
+		<operation error="skip">
+			<search><![CDATA[// System]]></search>
+			<add position="before"><![CDATA[
+			/* Header menu */						
+			$headermenus = array();
+		
+			if ($this->user->hasPermission('access', 'extension/headermenu')) {		
+				$headermenus[] = array(
+					'name'	   => $this->language->get('text_headermenu'),
+					'href'     => $this->url->link('extension/headermenu', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()
+				);
+			}
+
+			if ($this->user->hasPermission('access', 'extension/footertitle')) {		
+				$headermenus[] = array(
+					'name'	   => $this->language->get('text_footertitle'),
+					'href'     => $this->url->link('extension/footertitle', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()
+				);
+			}
+
+			if ($this->user->hasPermission('access', 'extension/footerlink')) {		
+				$headermenus[] = array(
+					'name'	   => $this->language->get('text_footerlink'),
+					'href'     => $this->url->link('extension/footerlink', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()
+				);
+			}
+
+			if ($this->user->hasPermission('access', 'extension/module/account_sidebar')) {		
+				$headermenus[] = array(
+					'name'	   => '會員功能選單',
+					'href'     => $this->url->link('extension/module/account_sidebar', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()
+				);
+			}
+
+			if ($headermenus) {					
+				$data['menus'][] = array(
+					'id'       => 'menu-megafooter',
+					'icon'	   => 'fa fa-share-alt fa-fw', 
+					'name'	   => $this->language->get('text_menu'),
+					'href'     => '',
+					'children' => $headermenus
+				);		
+			}
+
+			
+			/* Header menu */	]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/controller/common/header.php">
+		<operation>
+			<search><![CDATA[$data['menu'] = $this->load->controller('common/menu');]]></search>
+			<add position="before"><![CDATA[$data['tmdheader'] = $this->load->controller('extension/tmdheader');]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/common/header.twig">
+		<operation>
+			<search><![CDATA[{{ menu }}]]></search>
+			<add position="replace"><![CDATA[{{ tmdheader }}]]></add>
+		</operation>
+		
+	</file>
+
+</modification>

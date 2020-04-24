@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Admin Autocomplete Limit</name>
+	<version>2019.12.12</version>
+	<code>admin.autocomplete.limit</code>
+	<author>OSEC.tw</author>
+	<link>https://www.osec.tw/</link>
+	
+	<file path="admin/view/template/setting/setting.twig">
+		<operation error="log">
+			<search><![CDATA[<div class="tab-pane" id="tab-image">]]></search>
+			<add position="before" offset="1"><![CDATA[<fieldset>
+                <legend>{{ text_autocomplete_limit }}</legend>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ entry_autocomplete_limit }}</label>
+                  <div class="col-sm-10">
+                     <input type="text" name="config_autocomplete_limit" value="{{ config_autocomplete_limit }}" class="form-control"/>
+                  </div>
+                </div>
+            </fieldset>]]></add>
+		</operation>
+	</file>
+	
+	
+	<file path="admin/controller/setting/setting.php">
+		<operation error="log">
+			<search><![CDATA[$data['header'] = $this->load->controller('common/header');]]></search>
+			<add position="before"><![CDATA[
+		$data['text_autocomplete_limit'] = $this->language->get('text_autocomplete_limit');
+		$data['entry_autocomplete_limit'] = $this->language->get('entry_autocomplete_limit');
+		
+		if (isset($this->request->post['config_autocomplete_limit'])) {
+			$data['config_autocomplete_limit'] = $this->request->post['config_autocomplete_limit']; 
+		} else {
+			$data['config_autocomplete_limit'] = $this->config->get('config_autocomplete_limit');
+		}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/language/zh-TW/setting/setting.php">
+		<operation error="log">
+			<search><![CDATA[// Text]]></search>
+			<add position="after"><![CDATA[
+			$_['text_autocomplete_limit']            = '設定自動完成欄位的選項筆數';
+			$_['entry_autocomplete_limit']           = '自動完成筆數';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/controller/catalog/*">
+		<operation error="skip">
+			<search>
+				<![CDATA[
+					'limit'       => 5
+				]]>
+			</search>
+			<add position="replace">
+				<![CDATA[
+					'limit'       => $this->config->get( 'config_autocomplete_limit' )
+				]]>
+			</add>
+		</operation>
+	</file>
+
+</modification>

@@ -1,0 +1,44 @@
+<div class="account-sidebar">
+  <div class="list-group">
+    {% if main_links %}
+    {% for main_link in main_links %}
+    <h3 class="secondary-titles">{{ main_link.title }}</h3>
+    <ul class="list-unstyled">
+        {% for children_link in main_link.children_links %}
+            <li><a href="{{ children_link.link }}" class="list-group-item"><i class="fa {{ children_link.iconclass }}" aria-hidden="true"></i>&nbsp;{{ children_link.title }}</a> </li>
+        {% endfor %}
+    </ul>
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>
+<style type="text/css">
+{% if module_account_sidebar_titlebgcolor %}
+.account-sidebar h3{
+    background: {{ module_account_sidebar_titlebgcolor }}
+}
+{% endif %}
+
+{% if module_account_sidebar_titlecolor %}
+.account-sidebar h3, .account-sidebar h3{
+    color: {{ module_account_sidebar_titlecolor }}
+}
+{% endif %}
+
+.account-sidebar .list-group-item{
+    {% if module_account_sidebar_linkbgcolor %}
+       background: {{ module_account_sidebar_linkbgcolor }} !important;
+    {% endif %}
+    {% if module_account_sidebar_linkcolor %}
+       color: {{ module_account_sidebar_linkcolor }} !important;
+    {% endif %}
+}
+.account-sidebar .list-group-item:hover{
+    {% if module_account_sidebar_hoverbgcolor %}
+      background: {{ module_account_sidebar_hoverbgcolor }} !important;
+    {% endif %}
+    {% if module_account_sidebar_hovercolor %}
+      color: {{ module_account_sidebar_hovercolor }} !important;
+    {% endif %}
+}
+</style>

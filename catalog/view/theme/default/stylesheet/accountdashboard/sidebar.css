@@ -1,0 +1,46 @@
+.account-sidebar{
+  /*background: #666;*/
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.account-sidebar .list-group{
+  margin-bottom: 15px;
+}
+.account-sidebar .list-group-item{
+  background: #eee;
+  border-radius: 0;
+  border: 1px solid #DDDDDD;
+  color: #888888;
+  padding: 8px 12px;
+  display: block;
+  text-decoration: none;
+}
+.account-sidebar .list-group-item i{
+  margin-right: 5px;
+}
+.account-sidebar .list-group-item:hover{
+  background: #fff;
+  text-shadow: none;
+}
+.account-sidebar h3{
+  margin: 0;
+  color: #fff;
+  padding: 8px;
+  font-weight: normal;
+  font-size: 16px;
+  text-align: center;
+  background: #505050;
+}
+.account-sidebar .box-content{
+  position: 0;
+  padding: 0;
+}
+.account-sidebar ul {
+    margin-bottom: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.account-sidebar ul:last-child {
+    margin-bottom: 10px;
+}

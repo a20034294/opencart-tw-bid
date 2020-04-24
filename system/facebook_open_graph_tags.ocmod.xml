@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <modification>
+        <name>Facebook Open Graph Tags for Opencart v3 - v1.1</name>
+		<code>facebook_open_graph_tags_for_opencart_v3</code>
+        <version>1.1</version>
+        <author>agatha65.com</author>
+		<link>http://www.agatha65.com</link>
+		<file path="system/library/document.php">
+		    <operation>
+                <search><![CDATA[
+				private $scripts = array();
+                ]]></search>
+                <add position="after"><![CDATA[
+				private $ogmetas = array();
+                ]]></add>
+            </operation>
+			<operation>
+                <search><![CDATA[
+				public function addStyle($href, $rel = 'stylesheet', $media = 'screen') {
+                ]]></search>
+                <add position="before"><![CDATA[
+				public function addOGMeta($meta_name, $content) {
+		            $this->ogmetas[] = array(
+		        	'meta_name'  => $meta_name,
+	        		'content'   => $content
+	            	);
+            	}
+				public function getOGMeta() {
+            		return $this->ogmetas;
+            	}
+                ]]></add>
+            </operation>
+		</file>
+		<file path="catalog/controller/common/header.php">
+		    <operation>
+                <search><![CDATA[
+				$data['language'] = $this->load->controller('common/language');
+                ]]></search>
+                <add position="before"><![CDATA[
+				// For page specific og tags
+				if (isset($this->request->get['route'])) {
+					if (isset($this->request->get['product_id'])) {
+						$class = '-' . $this->request->get['product_id'];
+						$this->document->addOGMeta('property="og:type"', 'product');
+					} elseif (isset($this->request->get['path'])) {
+						$class = '-' . $this->request->get['path'];
+					} elseif (isset($this->request->get['manufacturer_id'])) {
+						$class = '-' . $this->request->get['manufacturer_id'];
+					} elseif (isset($this->request->get['information_id'])) {
+						$class = '-' . $this->request->get['information_id'];
+						$this->document->addOGMeta('property="og:type"', 'article');
+					} else {
+						$class = '';
+					}
+					$data['class'] = str_replace('/', '-', $this->request->get['route']) . $class;
+				} else {
+					$data['class'] = 'common-home';
+					$this->document->addOGMeta('property="og:type"', 'website');
+				}
+				$this->load->model('tool/image');
+				$data['logo_meta'] = str_replace(' ', '%20', $this->model_tool_image->resize($this->config->get('config_logo'), 300, 300));
+				$data['ogmeta'] = $this->document->getOGMeta();
+                ]]></add>
+            </operation>
+		</file>
+		<file path="catalog/view/theme/*/template/common/header.twig">
+		    <operation>
+                <search><![CDATA[
+				</head>
+                ]]></search>
+                <add position="before"><![CDATA[
+<meta property="og:title" content="{{ title }}" >
+<meta property="og:description" content="{{ description ? description : '' }}" >
+{% if class == 'common-home' %}
+<meta property="og:url" content="{{ base }}" >
+{% endif %}
+{% if ('product-product' not in class) and ('product-category' not in class) and ('product-manufacturer-info' not in class) %}
+<meta property="og:image" content="{{ logo_meta }}" >
+<meta property="og:image:width" content="300" >
+<meta property="og:image:height" content="300" >
+{% endif %}
+<meta property="og:site_name" content="{{ name }}" >
+{% for meta_tag in ogmeta %}
+<meta {{ meta_tag.meta_name}} content="{{ meta_tag.content }}" >
+{% endfor %}
+                ]]></add>
+            </operation>
+		</file>
+		<file path="catalog/controller/product/product.php">
+		    <operation>
+                <search><![CDATA[
+				$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
+                ]]></search>
+                <add position="after"><![CDATA[
+		    	$this->document->addOGMeta('property="og:url"', $this->url->link('product/product', 'product_id=' . $this->request->get['product_id']) );
+                ]]></add>
+            </operation>
+		    <operation>
+                <search><![CDATA[
+				$results = $this->model_catalog_product->getProductImages($this->request->get['product_id']);
+                ]]></search>
+                <add position="after"><![CDATA[
+				if ($product_info['image']) {
+					$this->document->addOGMeta('property="og:image"', str_replace(' ', '%20', $this->model_tool_image->resize($product_info['image'], 600, 315)) );
+					$this->document->addOGMeta('property="og:image:width"', '600');
+					$this->document->addOGMeta('property="og:image:height"', '315');
+			    } else {
+		    		$this->document->addOGMeta( 'property="og:image"', str_replace(' ', '%20', $this->model_tool_image->resize($this->config->get('config_logo'), 300, 300)) );
+					$this->document->addOGMeta('property="og:image:width"', '300');
+					$this->document->addOGMeta('property="og:image:height"', '300');
+	     		}
+				foreach ($results as $result) {
+			    	$this->document->addOGMeta( 'property="og:image"', str_replace(' ', '%20', $this->model_tool_image->resize($result['image'], 600, 315)) );
+					$this->document->addOGMeta('property="og:image:width"', '600');
+					$this->document->addOGMeta('property="og:image:height"', '315');
+       			}
+                ]]></add>
+            </operation>
+			<operation>
+                <search><![CDATA[
+				if ($product_info['minimum']) {
+                ]]></search>
+                <add position="before"><![CDATA[
+				$meta_price = ( $data['special'] != false) ? $data['special'] : $data['price'] ;
+				$meta_price = trim(trim(($data['special'] != false) ? $data['special'] : $data['price'], $this->currency->getSymbolLeft($this->session->data['currency'])), $this->currency->getSymbolRight($this->session->data['currency']));
+				$decimal_point_meta_price = $this->language->get('decimal_point') ? $this->language->get('decimal_point') : '.';
+                $thousand_point_meta_price = $this->language->get('thousand_point')? $this->language->get('thousand_point') : ' ';
+                $meta_price = str_replace($thousand_point_meta_price, '', $meta_price);
+                if ( $decimal_point_meta_price != '.' ) {
+                  $meta_price = str_replace($decimal_point_meta_price, '.', $meta_price);
+                }
+                $meta_price = number_format((float)$meta_price, 2, '.', '');
+				
+				$this->document->addOGMeta('property="product:price:amount"', $meta_price);
+				$this->document->addOGMeta('property="product:price:currency"', $this->session->data['currency']);
+                ]]></add>
+            </operation>
+		</file>
+		<file path="catalog/controller/product/category.php">
+		    <operation>
+                <search><![CDATA[
+				$pagination = new Pagination();
+                ]]></search>
+                <add position="before"><![CDATA[
+		    	$this->document->addOGMeta('property="og:url"', $this->url->link('product/category', 'path=' . $category_info['category_id'] . ( ($page != 1) ? '&page='. $page : '' ), true) );
+                ]]></add>
+            </operation>
+		    <operation>
+                <search><![CDATA[
+				if ($category_info['image']) {
+                ]]></search>
+                <add position="after"><![CDATA[
+				if ( ($this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_width') < 300) || ($this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_height') < 300) ) {
+				    $this->document->addOGMeta( 'property="og:image"', str_replace(' ', '%20', $this->model_tool_image->resize($category_info['image'], 300, 300)) );
+					$this->document->addOGMeta('property="og:image:width"', '300');
+					$this->document->addOGMeta('property="og:image:height"', '300');
+				} else { 
+				    $this->document->addOGMeta( 'property="og:image"', str_replace(' ', '%20', $this->model_tool_image->resize($category_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_height'))) );
+					$this->document->addOGMeta('property="og:image:width"', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_width'));
+					$this->document->addOGMeta('property="og:image:height"', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_category_height'));
+				}
+                ]]></add>
+            </operation>
+			<operation>
+                <search><![CDATA[
+				$data['thumb'] = '';
+                ]]></search>
+                <add position="before"><![CDATA[
+		    	$this->document->addOGMeta( 'property="og:image"', str_replace(' ', '%20', $this->model_tool_image->resize($this->config->get('config_logo'), 300, 300)) );
+				$this->document->addOGMeta('property="og:image:width"', '300');
+				$this->document->addOGMeta('property="og:image:height"', '300');
+                ]]></add>
+            </operation>
+		</file>
+		<file path="catalog/controller/product/manufacturer.php">
+		    <operation>
+                <search><![CDATA[
+				$pagination = new Pagination();
+                ]]></search>
+                <add position="before"><![CDATA[
+				$this->document->addOGMeta('property="og:url"', $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . ( ($page != 1) ? '&page='. $page : '' ), true) );
+                ]]></add>
+            </operation>
+		    <operation>
+                <search><![CDATA[
+				if ($manufacturer_info) {
+                ]]></search>
+                <add position="after"><![CDATA[
+				  if ($this->request->server['HTTPS']) {
+			        $server = $this->config->get('config_ssl');
+		          } else {
+		            $server = $this->config->get('config_url');
+	              }
+				if ($manufacturer_info['image']) {
+				  $this->document->addOGMeta('property="og:image"', str_replace(' ', '%20', $server . 'image/' . $manufacturer_info['image']) );
+				} else {
+		    	  $this->document->addOGMeta('property="og:image"', str_replace(' ', '%20', $this->model_tool_image->resize($this->config->get('config_logo'), 300, 300)) );
+				  $this->document->addOGMeta('property="og:image:width"', '300');
+				  $this->document->addOGMeta('property="og:image:height"', '300');
+				}
+                ]]></add>
+            </operation>
+		</file>
+		<file path="catalog/controller/information/information.php">
+			<operation>
+                <search><![CDATA[
+				$this->document->setTitle($information_info['meta_title']);
+                ]]></search>
+                <add position="before"><![CDATA[
+				$this->document->addOGMeta('property="og:url"', $this->url->link('information/information', 'information_id=' .  $information_id) );
+                ]]></add>
+            </operation>
+		</file>
+    </modification>

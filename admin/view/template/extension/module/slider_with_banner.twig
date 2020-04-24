@@ -1,0 +1,188 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+				<h1>{{ heading_title }}</h1>
+				<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+					<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+				</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+			</div>
+			<div class="panel-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+							{% if error_name %}
+							<div class="text-danger">{{ error_name }}</div>
+							{% endif %}
+						</div>
+					</div>
+	 				<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-status">{{ entry_effect }}</label>
+						<div class="col-sm-10">
+							<select name="effect" id="input-status" class="form-control">
+								{% if effect == "slide" %}
+								<option value="{{ effect }}" selected="selected">{{ effect }}</option>
+								{% else %}
+								<option value="{{ "slide" }}">{{ "slide" }}</option>
+								{% endif %}
+								{% if effect == "fade" %}
+								<option value="{{ effect }}" selected="selected">{{ effect }}</option>
+								{% else %}
+								<option value="{{ "fade" }}">{{ "fade" }}</option>
+								{% endif %}
+								{% if effect == "cube" %}
+								<option value="{{ effect }}" selected="selected">{{ effect }}</option>
+								{% else %}
+								<option value="{{ "cube" }}">{{ "cube" }}</option>
+								{% endif %}
+								{% if effect == "coverflow" %}
+								<option value="{{ effect }}" selected="selected">{{ effect }}</option>
+								{% else %}
+								<option value="{{ "coverflow" }}">{{ "coverflow" }}</option>
+								{% endif %}
+								{% if effect == "flip" %}
+								<option value="{{ effect }}" selected="selected">{{ effect }}</option>
+								{% else %}
+								<option value="{{ "flip" }}">{{ "flip" }}</option>
+								{% endif %}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-autoplay">{{ entry_autoplay }}</label>
+						<div class="col-sm-10">
+							<select name="autoplay" id="input-autoplay" class="form-control">
+								<option value="1000" {% if autoplay == "1000" %}selected="selected"{% endif %}>1000 毫秒</option>
+								<option value="1500" {% if autoplay == "1500" %}selected="selected"{% endif %}>1500 毫秒</option>
+								<option value="2000" {% if autoplay == "2000" %}selected="selected"{% endif %}>2000 毫秒</option>
+								<option value="2500" {% if autoplay == "2500" %}selected="selected"{% endif %}>2500 毫秒</option>
+								<option value="3000" {% if autoplay == "3000" %}selected="selected"{% endif %}>3000 毫秒</option>
+								<option value="3500" {% if autoplay == "3500" %}selected="selected"{% endif %}>3500 毫秒</option>
+								<option value="4000" {% if autoplay == "4000" %}selected="selected"{% endif %}>4000 毫秒</option>
+								<option value="4500" {% if autoplay == "4500" %}selected="selected"{% endif %}>4500 毫秒</option>
+								<option value="5000" {% if autoplay == "5000" %}selected="selected"{% endif %}>5000 毫秒</option>
+								<option value="5500" {% if autoplay == "5500" %}selected="selected"{% endif %}>5500 毫秒</option>
+								<option value="6000" {% if autoplay == "6000" %}selected="selected"{% endif %}>6000 毫秒</option>
+								<option value="6500" {% if autoplay == "6500" %}selected="selected"{% endif %}>6500 毫秒</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-speed">{{ entry_speed }}</label>
+						<div class="col-sm-10">
+							<select name="speed" id="input-speed" class="form-control">
+								<option value="200" {% if speed == "200" %}selected="selected"{% endif %}>200 毫秒</option>
+								<option value="300" {% if speed == "300" %}selected="selected"{% endif %}>300 毫秒</option>
+								<option value="500" {% if speed == "500" %}selected="selected"{% endif %}>500 毫秒</option>
+								<option value="800" {% if speed == "800" %}selected="selected"{% endif %}>800 毫秒</option>
+								<option value="1000" {% if speed == "1000" %}selected="selected"{% endif %}>1000 毫秒</option>
+								<option value="1500" {% if speed == "1500" %}selected="selected"{% endif %}>1500 毫秒</option>
+								<option value="2000" {% if speed == "2000" %}selected="selected"{% endif %}>2000 毫秒</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-slider">{{ entry_slider }}</label>
+						<div class="col-sm-10">
+							<select name="slider_id" id="input-slider" class="form-control">
+								{% for banner in banners %}
+								{% if banner.banner_id == slider_id %}
+								<option value="{{ banner.banner_id }}" selected="selected">{{ banner.name }}</option>
+								{% else %}
+								<option value="{{ banner.banner_id }}">{{ banner.name }}</option>
+								{% endif %}
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-slider-width">{{ entry_slider_width }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="slider_width" value="{{ slider_width }}" placeholder="{{ entry_slider_width }}" id="input-slider-width" class="form-control" />
+							{% if error_slider_width %}
+							<div class="text-danger">{{ error_slider_width }}</div>
+							{% endif %}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-slider-height">{{ entry_slider_height }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="slider_height" value="{{ slider_height }}" placeholder="{{ entry_slider_height }}" id="input-slider-height" class="form-control" />
+							{% if error_slider_height %}
+							<div class="text-danger">{{ error_slider_height }}</div>
+							{% endif %}
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-banner">{{ entry_banner }}</label>
+						<div class="col-sm-10">
+							<select name="banner_id" id="input-banner" class="form-control">
+								{% for banner in banners %}
+								{% if banner.banner_id == banner_id %}
+								<option value="{{ banner.banner_id }}" selected="selected">{{ banner.name }}</option>
+								{% else %}
+								<option value="{{ banner.banner_id }}">{{ banner.name }}</option>
+								{% endif %}
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-banner-width">{{ entry_banner_width }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="banner_width" value="{{ banner_width }}" placeholder="{{ entry_banner_width }}" id="input-banner-width" class="form-control" />
+							{% if error_banner_width %}
+							<div class="text-danger">{{ error_banner_width }}</div>
+							{% endif %}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-banner-height">{{ entry_banner_height }}</label>
+						<div class="col-sm-10">
+							<input type="text" name="banner_height" value="{{ banner_height }}" placeholder="{{ entry_banner_height }}" id="input-banner-height" class="form-control" />
+							{% if error_banner_height %}
+							<div class="text-danger">{{ error_banner_height }}</div>
+							{% endif %}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+						<div class="col-sm-10">
+							<select name="status" id="input-status" class="form-control">
+								{% if status %}
+								<option value="1" selected="selected">{{ text_enabled }}</option>
+								<option value="0">{{ text_disabled }}</option>
+								{% else %}
+								<option value="1">{{ text_enabled }}</option>
+								<option value="0" selected="selected">{{ text_disabled }}</option>
+								{% endif %}
+							</select>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{{ footer }}

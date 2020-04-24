@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>Order Status Color - JadeAgile</name>
+	<code>order_status_color_jade</code>
+	<version>1.0</version>
+	<author>JadeAgile</author>
+
+	<file path="admin/controller/localisation/order_status.php">
+		<operation error="skip">
+			<search><![CDATA[protected function getList() {]]></search>
+			<add position="before"><![CDATA[
+			/*jorderstatuscolor starts*/
+			public function setJadeOrderStatusColor() {
+				$json = array();
+
+				$this->load->model('localisation/order_status');
+				/*ALTER TABLE `oc_order_status` ADD `jclr_bg` VARCHAR(80) NOT NULL AFTER `name`, ADD `jclr_text` VARCHAR(80) NOT NULL AFTER `jclr_bg`; */
+
+				$columns_mapping = array('background_color' => 'jclr_bg', 'text_color' => 'jclr_text');
+
+				if (!empty($this->request->post['order_status_id']) && !empty($this->request->post['action']) && isset($this->request->post['color']) && isset($columns_mapping[$this->request->post['action']])) {
+
+					$this->model_localisation_order_status->setJadeOrderStatusColor($this->request->post['order_status_id'], array('column' => $columns_mapping[$this->request->post['action']], 'value' => $this->request->post['color'] ));
+				}
+
+				$this->response->addHeader('Content-Type: application/json');
+				$this->response->setOutput(json_encode($json));
+			}
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[protected function getList() {]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+			$this->load->language('localisation/jorder_status_color');
+			$this->model_localisation_order_status->jOrderStatusColorDB();
+			$this->document->addStyle('view/javascript/jquery/jorderstatuscolor/colorpicker/css/bootstrap-colorpicker.css');
+			$this->document->addScript('view/javascript/jquery/jorderstatuscolor/colorpicker/js/bootstrap-colorpicker.js');
+			/*jorderstatuscolor end*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[protected function getForm() {]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+			$this->load->language('localisation/jorder_status_color');
+			$this->model_localisation_order_status->jOrderStatusColorDB();
+			$this->document->addStyle('view/javascript/jquery/jorderstatuscolor/colorpicker/css/bootstrap-colorpicker.css');
+			$this->document->addScript('view/javascript/jquery/jorderstatuscolor/colorpicker/js/bootstrap-colorpicker.js');
+			/*jorderstatuscolor end*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[foreach ($results as $result) {]]></search>
+			<add position="before"><![CDATA[
+			/*jorderstatuscolor starts*/
+			$data['user_token'] = $this->session->data['user_token'];
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$data['order_statuses'][] = array(]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+			'background_color' => isset($result['jclr_bg'])?$result['jclr_bg']:'' ,
+			'text_color' => isset($result['jclr_text'])?$result['jclr_text']:'',
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$data['column_action']]]></search>
+			<add position="before"><![CDATA[
+			/*jorderstatuscolor starts*/
+			$data['column_backgrond_color'] = $this->language->get('column_backgrond_color');
+			$data['column_text_color'] = $this->language->get('column_text_color');
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$data['entry_name']]]></search>
+			<add position="before"><![CDATA[
+			/*jorderstatuscolor starts*/
+			$data['entry_backgrond_color'] = $this->language->get('entry_backgrond_color');
+			$data['entry_text_color'] = $this->language->get('entry_text_color');
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$data['header']]]></search>
+			<add position="before"><![CDATA[
+			/*jorderstatuscolor starts*/
+			if(isset($this->request->get['order_status_id'])) {
+				$order_status_info = $this->model_localisation_order_status->getOrderStatus($this->request->get['order_status_id']);
+			}
+
+			if (isset($this->request->post['j_backgrond_color'])) {
+				$data['j_backgrond_color'] = $this->request->post['j_backgrond_color'];
+			} elseif (isset($order_status_info['jclr_bg'])) {
+				$data['j_backgrond_color'] = $order_status_info['jclr_bg'];
+			} else {
+				$data['j_backgrond_color'] = '';
+			}
+
+			if (isset($this->request->post['j_text_color'])) {
+				$data['j_text_color'] = $this->request->post['j_text_color'];
+			} elseif (isset($order_status_info['jclr_text'])) {
+				$data['j_text_color'] = $order_status_info['jclr_text'];
+			} else {
+				$data['j_text_color'] = '';
+			}
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/model/localisation/order_status.php">
+		<operation error="skip">
+			<search><![CDATA[public function addOrderStatus($data) {]]></search>
+			<add position="before"><![CDATA[
+			/*jorderstatuscolor starts*/
+			public function jOrderStatusColorDB() {
+				$query = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "order_status` WHERE Field='jclr_bg'");
+				if(!$query->num_rows) {
+					$this->db->query("ALTER TABLE `" . DB_PREFIX . "order_status` ADD `jclr_bg` VARCHAR(20) NOT NULL AFTER `name`");
+				}
+				$query = $this->db->query("SHOW COLUMNS FROM `" . DB_PREFIX . "order_status` WHERE Field='jclr_text'");
+				if(!$query->num_rows) {
+					$this->db->query("ALTER TABLE `" . DB_PREFIX . "order_status` ADD `jclr_text` VARCHAR(20) NOT NULL AFTER `name`");
+				}
+			}
+			public function setJadeOrderStatusColor($order_status_id, $data) {
+				$this->db->query("UPDATE " . DB_PREFIX . "order_status SET `". $data['column'] ."` = '" . $this->db->escape($data['value']) . "' WHERE order_status_id='". (int)$order_status_id ."'");
+				$this->cache->delete('order_status');
+			}
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[, name = '" . $this->db->escape($value['name']) . "']]></search>
+			<add position="replace"><![CDATA[, name = '" . $this->db->escape($value['name']) . "', jclr_bg = '" . $this->db->escape($data['j_backgrond_color']) . "', jclr_text = '" . $this->db->escape($data['j_text_color']) . "']]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[order_status_id, name]]></search>
+			<add position="replace"><![CDATA[order_status_id, name, jclr_bg, jclr_text]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[public function getOrderStatuses($data = array()) {]]></search>
+			<add position="after"><![CDATA[
+			$this->cache->delete('order_status');
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/localisation/order_status_list.twig">
+		<operation error="skip">
+			<search><![CDATA[<td class="text-right">{{ column_action }}</td>]]></search>
+			<add position="before"><![CDATA[
+			<!-- /*jorderstatuscolor starts*/ -->
+            <td class="text-right">{{ column_backgrond_color }}</td>
+            <td class="text-right">{{ column_text_color }}</td>
+            <!-- /*jorderstatuscolor ends*/ -->
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[<td class="text-right"><a href="{{ order_status.edit }}"]]></search>
+			<add position="before"><![CDATA[
+			<!-- /*jorderstatuscolor starts*/ -->
+            <td class="text-left"><div class="form-group jcolorpicker"><div class="input-group"><input type="text" class="form-control jcolor" data-action="background_color" data-order_status_id="{{ order_status.order_status_id }}" name="jcolor[background_color]" value="{{ order_status.background_color }}" /> <span class="input-group-addon jcolor_o" style="{% if order_status.background_color %}background-color: {{ order_status.background_color }};{% endif %}"></span> </div></div></td>
+            <td class="text-left"><div class="form-group jcolorpicker"><div class="input-group"><input type="text" class="form-control jcolor" data-action="text_color" data-order_status_id="{{ order_status.order_status_id }}" name="jcolor[text_color]" value="{{ order_status.text_color }}" /> <span class="input-group-addon jcolor_o" style="{% if order_status.text_color %}background-color: {{ order_status.text_color }};{% endif %}"></span> </div></div></td>
+            <!-- /*jorderstatuscolor ends*/ -->
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[{{ footer }}]]></search>
+			<add position="before"><![CDATA[
+			<!-- /*jorderstatuscolor starts*/ -->
+			<script type="text/javascript"><!--
+			  // Color Picker
+			  {# /*https://farbelous.io/bootstrap-colorpicker/v2/*/ #}
+			  $(function() {
+			    var colorpicker = $('.jcolor').colorpicker({
+			      'align': 'left',
+			    });
+			    colorpicker.on('changeColor', function(e) {
+			      var clr = $(this).data('colorpicker').getValue();
+			      $(this).parents('.jcolorpicker').first().find('.jcolor_o').css('background-color' , clr);
+			    }).on('hidePicker', function(e) {
+			      var clr = $(this).val(); //$(this).data('colorpicker').getValue();
+			      var order_status_id = $(this).attr('data-order_status_id');
+			      var action = $(this).attr('data-action');
+			      $.ajax({
+			        url: 'index.php?route=localisation/order_status/setJadeOrderStatusColor&user_token={{ user_token }}',
+			        type: 'post',
+			        data: 'order_status_id=' + order_status_id + '&action=' + action  + '&color='+ clr,
+			        dataType: 'json',
+			        beforeSend: function() {
+			        },
+			        complete: function() {
+			        },
+			        success: function(json) {
+			        },
+			        error: function(xhr, ajaxOptions, thrownError) {
+			          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			        }
+			      });
+			    });
+			  });
+			//--></script>
+			<!-- /*jorderstatuscolor ends*/ -->
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/localisation/order_status_form.twig">
+		<operation error="skip">
+			<search><![CDATA[</form>]]></search>
+			<add position="before"><![CDATA[
+			<!-- /*jorderstatuscolor starts*/ -->
+          <div class="form-group jcolorpicker">
+            <label class="col-sm-2 control-label">{{ entry_backgrond_color }}</label>
+            <div class="col-sm-10">
+              <div class="input-group">
+                <input type="text" name="j_backgrond_color" value="{{ j_backgrond_color }}" placeholder="{{ entry_backgrond_color }}" class="form-control jcolor" />
+                <span class="input-group-addon jcolor_o" style="{% if j_backgrond_color %}background-color: {{ j_backgrond_color }};{% endif %}"></span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group jcolorpicker">
+            <label class="col-sm-2 control-label">{{ entry_text_color }}</label>
+            <div class="col-sm-10">
+              <div class="input-group">
+                <input type="text" name="j_text_color" value="{{ j_text_color }}" placeholder="{{ entry_text_color }}" class="form-control jcolor" />
+                <span class="input-group-addon jcolor_o" style="{% if j_text_color %}background-color: {{ j_text_color }};{% endif %}"></span>
+              </div>
+            </div>
+          </div>
+          <!-- /*jorderstatuscolor ends*/ -->
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[{{ footer }}]]></search>
+			<add position="before"><![CDATA[
+			<!-- /*jorderstatuscolor starts*/ -->
+			<script type="text/javascript"><!--
+			  // Color Picker
+			  {# /*https://farbelous.io/bootstrap-colorpicker/v2/*/ #}
+			  $(function() {
+			    var colorpicker = $('.jcolor').colorpicker({
+			      'align': 'left',
+			    });
+			    colorpicker.on('changeColor', function(e) {
+			      var clr = $(this).data('colorpicker').getValue();
+			      $(this).parents('.jcolorpicker').first().find('.jcolor_o').css('background-color' , clr);
+			    }).on('hidePicker', function(e) {
+			      console.log('hide me');
+			    });
+
+			  });
+			//--></script>
+			<!-- /*jorderstatuscolor ends*/ -->
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/model/sale/order.php">
+		<operation error="skip">
+			<search><![CDATA[o.shipping_code, o.total]]></search>
+			<add position="replace"><![CDATA[o.order_status_id, o.shipping_code, o.total]]></add>
+		</operation>
+	</file>
+	<file path="admin/controller/sale/order.php">
+		<operation error="skip">
+			<search><![CDATA[$this->model_sale_order->getOrders($filter_data);]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+
+			$this->load->language('localisation/jorder_status_color');
+			$this->load->model('localisation/order_status');
+			$this->model_localisation_order_status->jOrderStatusColorDB();
+
+			$order_statuses = $this->model_localisation_order_status->getOrderStatuses(array('order' => 'ASC'));
+			$orderstatuses = array();
+			foreach ($order_statuses as $key => $value) {
+				$orderstatuses[$value['order_status_id']]  = array('text_color' => isset($value['jclr_text']) ? $value['jclr_text'] : '' , 'backgrond_color' => isset($value['jclr_bg']) ? $value['jclr_bg'] : '');
+			}
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$result['customer'],]]></search>
+			<add position="before"><![CDATA[
+			/*jorderstatuscolor starts*/
+			'j_text_color'      => isset($orderstatuses[$result['order_status_id']]) ? $orderstatuses[$result['order_status_id']]['text_color'] : '',
+			'j_backgrond_color'      => isset($orderstatuses[$result['order_status_id']]) ? $orderstatuses[$result['order_status_id']]['backgrond_color'] : '',
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/sale/order_list.twig">
+		<operation error="skip">
+			<search><![CDATA[<option value="{{ order_status.order_status_id }}"]]></search>
+			<add position="replace"><![CDATA[<option value="{{ order_status.order_status_id }}" {% if (order_status.jclr_text or order_status.jclr_bg) %}style="padding: 5px; border-radius: 4px;{% if order_status.jclr_bg %}background: {{ order_status.jclr_bg }};{% endif %} {% if order_status.jclr_text %}color: {{ order_status.jclr_text }}; {% endif %}"{% endif %}]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[{{ order.order_status }}]]></search>
+			<add position="replace"><![CDATA[{% if (order.j_text_color or order.j_backgrond_color) %}<label style="padding: 5px; border-radius: 4px;{% if order.j_backgrond_color %}background: {{ order.j_backgrond_color }};{% endif %} {% if order.j_text_color %}color: {{ order.j_text_color }};{% endif %}">{{ order.order_status }}</label>{% else %}{{ order.order_status }}{% endif %}]]></add>
+		</operation>
+	</file>
+	<!-- for oc3x that have extension folder -->
+	<file path="admin/controller/extension/dashboard/recent.php">
+		<operation error="skip">
+			<search><![CDATA[$this->model_sale_order->getOrders($filter_data);]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+
+			$this->load->language('localisation/jorder_status_color');
+			$this->load->model('localisation/order_status');
+			$this->model_localisation_order_status->jOrderStatusColorDB();
+			$order_statuses = $this->model_localisation_order_status->getOrderStatuses(array('order' => 'ASC'));
+			$orderstatuses = array();
+			foreach ($order_statuses as $key => $value) {
+				$orderstatuses[$value['order_status_id']]  = array('text_color' => isset($value['jclr_text']) ? $value['jclr_text'] : '' , 'backgrond_color' => isset($value['jclr_bg']) ? $value['jclr_bg'] : '');
+			}
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$result['customer'],]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+			'j_text_color'      => isset($orderstatuses[$result['order_status_id']]) ? $orderstatuses[$result['order_status_id']]['text_color'] : '',
+			'j_backgrond_color'      => isset($orderstatuses[$result['order_status_id']]) ? $orderstatuses[$result['order_status_id']]['backgrond_color'] : '',
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/extension/dashboard/recent_info.twig">
+		<operation error="skip">
+			<search><![CDATA[{{ order.status }}]]></search>
+			<add position="replace"><![CDATA[{% if (order.j_text_color or order.j_backgrond_color) %}<label style="padding: 5px; border-radius: 4px;{% if order.j_backgrond_color %}background: {{ order.j_backgrond_color }};{% endif %} {% if order.j_text_color %}color: {{ order.j_text_color }};{% endif %}">{{ order.status }}</label>{% else %}{{ order.status }}{% endif %}]]></add>
+		</operation>
+	</file>
+	<!-- for oc3x that have extension folder -->
+	<file path="catalog/model/account/order.php">
+		<operation error="skip">
+			<search><![CDATA[class ModelAccountOrder extends Model {]]></search>
+			<add position="after"><![CDATA[
+			public function getOrderStatusesJade($data = array()) {
+				$sql = "SELECT * FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+				$sql .= " ORDER BY name";
+
+				if (isset($data['order']) && ($data['order'] == 'DESC')) {
+					$sql .= " DESC";
+				} else {
+					$sql .= " ASC";
+				}
+
+				if (isset($data['start']) || isset($data['limit'])) {
+					if ($data['start'] < 0) {
+						$data['start'] = 0;
+					}
+
+					if ($data['limit'] < 1) {
+						$data['limit'] = 20;
+					}
+
+					$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+				}
+
+				$query = $this->db->query($sql);
+
+				return $query->rows;
+			}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[os.name as status,]]></search>
+			<add position="replace"><![CDATA[os.name as status,os.order_status_id,]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/order.php">
+		<operation error="skip">
+			<search><![CDATA[$this->model_account_order->getOrders(($page - 1) * 10, 10);]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+			$order_statuses = $this->model_account_order->getOrderStatusesJade(array('order' => 'ASC'));
+			$orderstatuses = array();
+			foreach ($order_statuses as $key => $value) {
+				$orderstatuses[$value['order_status_id']]  = array('text_color' => isset($value['jclr_text']) ? $value['jclr_text'] : '' , 'backgrond_color' => isset($value['jclr_bg']) ? $value['jclr_bg'] : '');
+			}
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[=> $result['order_id'],]]></search>
+			<add position="after"><![CDATA[
+			/*jorderstatuscolor starts*/
+			'j_text_color'      => isset($orderstatuses[$result['order_status_id']]) ? $orderstatuses[$result['order_status_id']]['text_color'] : '',
+			'j_backgrond_color'      => isset($orderstatuses[$result['order_status_id']]) ? $orderstatuses[$result['order_status_id']]['backgrond_color'] : '',
+			/*jorderstatuscolor ends*/
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/account/order_list.twig">
+		<operation error="skip">
+			<search><![CDATA[{{ order.status }}]]></search>
+			<add position="replace"><![CDATA[{% if (order.j_text_color or order.j_backgrond_color) %}<label style="padding: 5px; border-radius: 4px;{% if order.j_backgrond_color %}background: {{ order.j_backgrond_color }};{% endif %} {% if order.j_text_color %}color: {{ order.j_text_color }};{% endif %}">{{ order.status }}</label>{% else %}{{ order.status }}{% endif %}]]></add>
+		</operation>
+	</file>
+</modification>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>Product Preview</name>
+	<code>product.preview</code>
+	<version>2019.12.12</version>
+	<author>OSEC.tw</author>
+	<link>https://www.osec.tw/</link>
+
+	<file path="admin/controller/catalog/product.php">
+		<operation>
+			<search><![CDATA['status'     => $result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),]]></search>
+			<add position="after"><![CDATA[
+				'preview'    => ($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG) . 'index.php?route=product/product&product_id='.$result['product_id'],
+			]]></add>
+		</operation> 
+		<operation>
+			<search><![CDATA[$data['cancel']]]></search>
+			<add position="before"><![CDATA[
+			if (isset($this->request->get['product_id'])) {
+				$data['preview'] = ($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG) . 'index.php?route=product/product&product_id='.$this->request->get['product_id'];
+			}
+			]]></add>
+		</operation> 
+	</file>
+
+	<file path="admin/view/template/catalog/product_list.twig">
+		<operation>
+			<search><![CDATA[<i class="fa fa-pencil"></i></a>]]></search>
+			<add position="replace"><![CDATA[<i class="fa fa-pencil"></i></a> <a href="{{ preview }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-success" target=_blank><i class="fa fa-eye"></i></a>]]></add>
+		</operation> 
+	</file>
+
+	<file path="admin/view/template/catalog/product_form.twig">
+		<operation>
+			<search><![CDATA[<a href="{{ cancel }}" data-toggle="tooltip"]]></search>
+			<add position="before"><![CDATA[
+{% if preview %}
+	<a href="{{ preview }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-success" target=_blank><i class="fa fa-eye"></i></a>
+{% endif %}
+			]]></add>
+		</operation> 
+	</file>
+ 
+</modification> 

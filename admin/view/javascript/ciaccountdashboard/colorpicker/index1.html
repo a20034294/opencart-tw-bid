@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<link rel="stylesheet" href="css/colorpicker.css" type="text/css" />
+	<!--<link rel="stylesheet" media="screen" type="text/css" href="css/layout.css" />-->
+	<title>ColorPicker</title>
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/colorpicker.js"></script>
+	</head>
+<body>
+<style>
+.preview {
+	width: 60px;
+	height: 60px;
+	background: #fff;
+	border: 1px solid #333;
+	padding: 3px;
+}
+.containers {
+	display: inline-block;
+	width: auto;
+}
+</style>
+				<div class="containers"><input type="text" maxlength="6" size="6" class="colorpickers" id="colorpickerField1" value="00ff00" /><div class="preview"></div></div>
+				<div class="containers"><input type="text" maxlength="6" size="6" class="colorpickers" id="colorpickerField3" value="0000ff" /><div class="preview"></div></div>
+				<div class="containers"><input type="text" maxlength="6" size="6" class="colorpickers" id="colorpickerField2" value="ff0000" /><div class="preview"></div></div>
+				<script>
+var currentcol = null;
+//$('#colorpickerField1, #colorpickerField2, #colorpickerField3').ColorPicker({
+$('.colorpickers').ColorPicker({
+	curr : '',
+	onShow: function (colpkr) {
+		$(colpkr).fadeIn(500);
+		return false;
+	},
+	onHide: function (colpkr) {
+		$(colpkr).fadeOut(500);
+		return false;
+	},
+	onSubmit: function(hsb, hex, rgb, el) {
+		$(el).val(hex);
+		$(el).ColorPickerHide();
+	},
+	onBeforeShow: function () {
+		$(this).ColorPickerSetColor(this.value);
+	},onChange: function (hsb, hex, rgb) {
+		currentcol.curr.siblings('.preview').css('background', '#' + hex);
+		currentcol.curr.val(hex);
+	}
+})
+.bind('keyup', function(){
+	$(this).ColorPickerSetColor(this.value);
+}).click(function(){
+	currentcol = this;
+	currentcol.curr = $(this);
+});
+$(document).ready(function(){
+	//$.each($('#colorpickerField1, #colorpickerField2, #colorpickerField3'),function(key,value){
+	$.each($('.colorpickers'),function(key,value){
+		$(this).siblings('.preview').css({'background':'#'+$(this).val()});
+	});
+});
+</script>
+</body>
+</html>

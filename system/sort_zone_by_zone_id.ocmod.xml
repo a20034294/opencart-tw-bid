@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Sort Zone by zone id</name>
+    <code>sort.zone.by.zone.id</code>
+    <version>2018.12.26</version>
+    <author>OSEC.tw</author>
+    <link>https://www.osec.tw</link>
+
+  <file path="admin/model/localisation/zone.php">
+    <operation>
+      <search><![CDATA[
+      $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY name");
+            ]]></search>
+      <add position="replace">
+        <![CDATA[
+      $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY zone_id");
+        ]]>
+      </add>
+    </operation>
+  </file>
+  
+  <file path="catalog/model/localisation/zone.php">
+    <operation>
+      <search><![CDATA[
+      $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY name");
+            ]]></search>
+      <add position="replace">
+        <![CDATA[
+      $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone WHERE country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY zone_id");
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+</modification>

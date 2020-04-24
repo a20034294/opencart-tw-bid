@@ -1,0 +1,18 @@
+<modification>
+<name>Product Fuzzy Filter</name>
+<code>product.fuzzy.filter</code>
+<version>2019.12.12</version>
+<author>OSEC.tw</author>
+<link>https://www.osec.tw</link>
+
+<file path="admin/model/catalog/product.php">
+<operation>
+	<search position="replace"><![CDATA[$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";]]></search>
+	<add><![CDATA[$sql .= " AND pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";]]></add>
+</operation>
+<operation>
+	<search position="replace"><![CDATA[$sql .= " AND p.model LIKE '" . $this->db->escape($data['filter_model']) . "%'";]]></search>
+	<add><![CDATA[$sql .= " AND p.model LIKE '%" . $this->db->escape($data['filter_model']) . "%'";]]></add>
+</operation>
+</file>
+</modification>

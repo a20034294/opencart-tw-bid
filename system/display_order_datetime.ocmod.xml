@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Display Order DateTime</name>
+    <code>display.order.datetime</code>
+    <version>2019.12.12</version>
+    <author>OSEC</author>
+    <link>https://www.osec.tw</link>
+
+    <file path="admin/controller/sale/order.php">
+        <operation>
+            <search><![CDATA[$data['date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));]]></search>
+            <add position="replace"><![CDATA[$data['date_added'] = date('Y-m-d H:i:s', strtotime($order_info['date_added']));]]></add>
+        </operation>
+        
+         <operation>
+            <search><![CDATA[date($this->language->get('date_format_short'), strtotime($order_info['date_added']))]]></search>
+            <add position="replace"><![CDATA[date('Y-m-d H:i:s', strtotime($order_info['date_added']))]]></add>
+        </operation>
+         <operation>
+            <search><![CDATA[date($this->language->get('date_format_short'), strtotime($result['date_added']))]]></search>
+            <add position="replace"><![CDATA[date('Y-m-d H:i:s', strtotime($result['date_added']))]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/account/order.php">
+        <operation>
+            <search><![CDATA[date($this->language->get('date_format_short'), strtotime($result['date_added']))]]></search>
+            <add position="replace"><![CDATA[date('Y-m-d H:i:s', strtotime($result['date_added']))]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[date($this->language->get('date_format_short'), strtotime($order_info['date_added']))]]></search>
+            <add position="replace"><![CDATA[date('Y-m-d H:i:s', strtotime($order_info['date_added']))]]></add>
+        </operation>
+    </file>
+
+</modification>

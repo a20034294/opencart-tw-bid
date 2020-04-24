@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <name>Scroll to Up Button</name>
+	<id>scroll_to_up</id>
+	<version>1.0</version>
+    <link>http://www.codingrays.com</link>
+	<author>CodingRays</author>
+	<code>scroll_to_up</code>
+   
+   <file name="catalog/view/theme/default/template/common/header.twig">
+       <operation info="Scroll to Up Button">
+	   
+	   <search position="before"><![CDATA[</head>]]></search>
+           <add><![CDATA[
+<script src="catalog/view/javascript/scrolltotop.js" type="text/javascript"></script>
+           ]]></add>
+		   
+       </operation>
+   </file>  
+</modification>

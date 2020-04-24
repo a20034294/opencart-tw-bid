@@ -1,0 +1,74 @@
+<modification>
+	<name>Address Format Optimization</name>
+	<code>address.format.optimization</code>
+	<version>2019.12.14</version>
+	<author>OSEC.tw</author>
+	<link>https://www.osec.tw</link>
+
+	<file path="catalog/controller/account/order.php">
+		<operation error="skip">
+			<search><![CDATA[$result['firstname'] . ' ' . $result['lastname']]]></search>
+			<add position="replace"><![CDATA[$result['lastname'] . $result['firstname']]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/event/activity.php">
+		<operation error="skip">
+			<search><![CDATA[$args[0]['firstname'] . ' ' . $args[0]['lastname']]]></search>
+			<add position="replace"><![CDATA[$args[0]['lastname'] . $args[0]['firstname']]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->customer->getFirstName() . ' ' . $this->customer->getLastName()]]></search>
+			<add position="replace"><![CDATA[$this->customer->getLastName() . $this->customer->getFirstName()]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$customer_info['firstname'] . ' ' . $customer_info['lastname']]]></search>
+			<add position="replace"><![CDATA[$customer_info['lastname'] . $customer_info['firstname']]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$args[1]['firstname'] . ' ' . $args[1]['lastname']]]></search>
+			<add position="replace"><![CDATA[$args[1]['lastname'] . $args[1]['firstname']]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$order_info['firstname'] . ' ' . $order_info['lastname']]]></search>
+			<add position="replace"><![CDATA[$order_info['lastname'] . $order_info['firstname']]]></add>
+		</operation>
+	</file>
+
+	<file path="admin/controller/customer/customer.php">
+		<operation error="skip">
+			<search><![CDATA[$this->error['lastname'] = $this->language->get('error_lastname');]]></search>
+			<add position="replace"><![CDATA[]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->error['address'][$key]['lastname'] = $this->language->get('error_lastname');]]></search>
+			<add position="replace"><![CDATA[]]></add>
+		</operation>
+	</file>
+
+	<file path="admin/model/customer/customer.php">
+		<operation error="skip" info="getCustomers()">
+			<search><![CDATA[CONCAT(c.firstname, ' ', c.lastname)]]></search>
+			<add position="replace"><![CDATA[CONCAT(c.lastname, c.firstname)]]></add>
+		</operation>
+	</file>
+
+	<file path="admin/model/sale/order.php">
+		<operation error="skip" info="getOrder()">
+			<search><![CDATA[(SELECT CONCAT(c.firstname, ' ', c.lastname)]]></search>
+			<add position="replace"><![CDATA[(SELECT CONCAT(c.lastname, c.firstname)]]></add>
+		</operation>
+		<operation error="skip" info="getOrders()">
+			<search><![CDATA[CONCAT(o.firstname, ' ', o.lastname) AS customer]]></search>
+			<add position="replace"><![CDATA[CONCAT(o.lastname, o.firstname) AS customer]]></add>
+		</operation>
+	</file>
+
+	<file path="admin/view/template/sale/order_info.twig">
+		<operation error="skip">
+			<search><![CDATA[{{ firstname }} {{ lastname }}]]></search>
+			<add position="replace"><![CDATA[{{ lastname }}{{ firstname }}]]></add>
+		</operation>
+	</file>
+
+</modification>

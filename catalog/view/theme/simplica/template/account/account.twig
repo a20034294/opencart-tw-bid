@@ -1,0 +1,118 @@
+{{ header }}
+<div id="account-account" class="container">
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+		<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+		{% endfor %}
+	</ul>
+	{% if success %}
+	<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
+	{% endif %}
+	<div class="row">{{ column_left }}
+		{% if column_left and column_right %}
+		{% set class = 'col-sm-6' %}
+		{% elseif column_left or column_right %}
+		{% set class = 'col-sm-9' %}
+		{% else %}
+		{% set class = 'col-sm-12' %}
+		{% endif %}
+		<div id="content" class="{{ class }}">{{ content_top }}
+	 
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="customer-account"><h2>{{ text_my_account }}</h2>
+						<a href="{{ edit }}" class="col-sm-2 col-xs-12 col-xs-12"><i class="fa fa-pencil-square" aria-hidden="true"></i><hr />{{ text_edit }}</a>
+						<a href="{{ password }}" class="col-sm-2 col-xs-12"><i class="fa fa-key" aria-hidden="true"></i><hr />{{ text_password }}</a>
+						<a href="{{ address }}" class="col-sm-2 col-xs-12"><i class="fa fa-book" aria-hidden="true"></i><hr />{{ text_address }}</a>
+						<a href="{{ wishlist }}" class="col-sm-2 col-xs-12"><i class="fa fa-heart" aria-hidden="true"></i><hr />{{ text_wishlist }}</a>
+					</ul>
+				</div>
+			</div>
+		
+			{% if credit_cards %}
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="customer-account"><h2>{{ text_credit_card }}</h2>
+						{% for credit_card in credit_cards %}
+						<a href="{{ credit_card.href }}" class="col-sm-2 col-xs-12">{{ credit_card.name }}</a>
+						{% endfor %}
+					 </ul>
+				</div>
+			</div>
+			{% endif %}
+
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="customer-account"><h2>{{ text_my_orders }}</h2>
+						<a href="{{ order }}" class="col-sm-2 col-xs-12"><i class="fa fa-shopping-cart" aria-hidden="true"></i><hr />{{ text_order }}</a>
+						<a href="{{ download }}" class="col-sm-2 col-xs-12"><i class="fa fa-download" aria-hidden="true"></i><hr />{{ text_download }}</a>
+						{% if reward %}
+						<a href="{{ reward }}" class="col-sm-2 col-xs-12"><i class="fa fa-gift" aria-hidden="true"></i><hr />{{ text_reward }}</a>
+						{% endif %}
+						<a href="{{ return }}" class="col-sm-2 col-xs-12"><i class="fa fa-retweet" aria-hidden="true"></i><hr />{{ text_return }}</a>
+						<a href="{{ transaction }}" class="col-sm-2 col-xs-12"><i class="fa fa-money" aria-hidden="true"></i><hr />{{ text_transaction }}</a>
+						<!--a href="{{ recurring }}" class="col-sm-2 col-xs-12"><i class="fa fa-repeat" aria-hidden="true"></i><hr />{{ text_recurring }}</a-->
+					</ul>
+				</div>
+			 </div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<ul class="customer-account"><h2>其他</h2>
+						{% if not tracking %}
+						<a href="{{ affiliate }}" class="col-sm-2 col-xs-12"><i class="fa fa-handshake-o" aria-hidden="true"></i><hr />{{ text_affiliate_add }}</a>
+						{% else %}
+						<a href="{{ affiliate }}" class="col-sm-2 col-xs-12">{{ text_affiliate_edit }}</a>
+						<a href="{{ tracking }}" class="col-sm-2 col-xs-12">{{ text_tracking }}</a>
+						{% endif %}
+						<a href="{{ newsletter }}" class="col-sm-2 col-xs-12"><i class="fa fa-newspaper-o" aria-hidden="true"></i><hr />{{ text_newsletter }}</a>
+					 </ul>
+				</div>
+			</div>
+
+			{{ content_bottom }}
+		</div>
+		{{ column_right }}
+	</div>
+</div>
+<style>
+.customer-account {
+	padding: 0;
+	margin:0;
+}
+
+.customer-account i {
+	font-size: 36px;
+	color: #666666;
+	line-height: 24px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.customer-account a {
+	font-size: 15px;
+	line-height: 24px;
+	padding: 10px;
+	border: 1px solid #EEE;
+	margin-bottom: 5px;
+	text-align: center;
+	list-style-type: none;
+	margin-right: 5px;
+	
+}
+.customer-account a:hover {
+	background-color: #F29931;
+	color: #FFF !important;
+	 cursor: pointer;
+	 -webkit-box-shadow: 0px 0px 5px 0px rgba(204,204,204,1);
+		 -moz-box-shadow: 0px 0px 5px 0px rgba(204,204,204,1);
+		 box-shadow: 0px 0px 5px 0px rgba(204,204,204,1);
+		-webkit-transition: background-color 1s ease-out;
+		 -moz-transition: background-color 1s ease-out;
+		 -o-transition: background-color 1s ease-out;
+		 transition: background-color 1s ease-out;
+}
+.customer-account a:hover i{
+	color: #FFF !important;
+}
+</style>
+{{ footer }}

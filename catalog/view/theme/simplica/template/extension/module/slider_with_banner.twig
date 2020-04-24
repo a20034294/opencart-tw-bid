@@ -1,0 +1,94 @@
+<style type="text/css">
+.swiper-viewport {
+    margin: 0 0 24px;
+}
+.rightbanner .banner-effect:first-child {
+    margin-top: 4px;
+}
+.rightbanner .banner-effect:first-child, .rightbanner .banner-effect:nth-child(2) {
+    margin-bottom: 15px;
+}
+
+.banner-inner {
+    position: relative;
+}
+.banner-inner a {
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+.banner-inner .banner-image {
+    float: left;
+    width: 100%;
+}
+.banner-inner .banner-text {
+    color: #ffffff;
+    float: left;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: left;
+    top: 8px;
+    width: 100%;
+}
+.banner-inner .banner-text .text1 {
+    float: left;
+    font-size: 24px;
+    font-weight: blod;
+    padding: 0 0 8 8px;
+    margin-left: 4px;
+    text-transform: uppercase;
+    width: 100%;
+    font-family: 'Microsoft JhengHei', sans-serif;
+}
+
+</style>
+
+<div class="row">
+  <div class="col-md-9 col-sm-12 slide-padding">
+    <div class="swiper-viewport">
+      <div id="slider{{ module }}" class="swiper-container">
+        <div class="swiper-wrapper"> {% for slider in sliders %}
+          <div class="swiper-slide text-center">{% if slider.link %}<a href="{{ slider.link }}"><img src="{{ slider.image }}" alt="{{ slider.title }}" class="img-responsive" /></a>{% else %}<img src="{{ slider.image }}" alt="{{ slider.title }}" class="img-responsive" />{% endif %}</div>
+          {% endfor %} </div>
+      </div>
+      <div class="swiper-pagination slideshow{{ module }}"></div>
+      <div class="swiper-pager">
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-12 rightbanner hidden-xs hidden-sm">
+    {% for banner in banners %}
+<div class="cmsbanner3-inner banner-inner">
+<a href="#">
+<span class="banner-image">
+    <div class="banner-effect">{% if banner.link %}<a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" /></a>{% else %}<img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />{% endif %}</div>
+</span>
+<span class="banner-text">
+<span class="text1">{{ banner.title }}</span>
+</span>
+</a>
+</div>
+
+    {% endfor %}
+  </div>
+</div>
+
+<script type="text/javascript"><!--
+$('#slider{{ module }}').swiper({
+	mode: 'horizontal',
+	slidesPerView: 1,
+	pagination: '.slider{{ module }}',
+	paginationClickable: true,
+	nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    spaceBetween: 30,
+	  autoplay: {{ autoplay }},
+    autoplayDisableOnInteraction: true,
+    effect: '{{ effect }}',
+    speed: {{ speed }},
+	  loop: true
+});
+--></script>

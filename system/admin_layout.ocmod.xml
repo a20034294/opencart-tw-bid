@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Admin Layout</name>
+	<code>admin.layout</code>
+	<version>2019.12.13</version>
+	<author>OSEC</author>
+	<link>https://www.osec.tw</link>
+
+	<file path="admin/view/template/user/user_group_form.twig">
+		<operation>
+			<search index="1"><![CDATA[<div class="col-sm-10">]]></search>
+			<add position="replace"><![CDATA[<div class="col-sm-4">]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[<label class="col-sm-2 control-label">{{ entry_modify }}</label>]]></search>
+			<add position="before" offset="2"><![CDATA[##MARKER##]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[##MARKER##]]></search>
+			<add position="replace" offset="5"><![CDATA[
+            <label class="col-sm-2 control-label">{{ entry_modify }}</label>
+            <div class="col-sm-4">
+              <div class="well well-sm" style="height: 150px; overflow: auto;">
+				]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[height: 150px;]]></search>
+			<add position="replace"><![CDATA[height: 450px;]]></add>
+		</operation>
+	</file>
+
+</modification>

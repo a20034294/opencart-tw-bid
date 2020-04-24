@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Remove Promotions</name>
+	<code>remove.promotions</code>
+	<version>2019.12.12</version>
+	<author>OSEC</author>
+	<link>https://www.osec.tw</link>
+
+	<file path="admin/view/template/extension/extension/{analytics,captcha,dashboard,feed,module,payment,report,shipping,theme,total}.twig">
+		<operation>
+			<search><![CDATA[{{ promotion }}]]></search>
+			<add position="replace"><![CDATA[]]></add>
+		</operation>
+	</file>
+
+</modification>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Admin Full Category Selection</name>
+    <code>admin_full_category_selection</code>
+    <version>1.0</version>
+    <author>Qavi Technologies</author>
+    <link>https://qavi.tech/?utm_source=opencart&amp;utm_medium=code&amp;utm_campaign=extension&amp;utm_term=category_selection&amp;utm_content=doc_link</link>
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search><![CDATA[
+            $data['product_categories'] = array();
+            ]]></search>
+            <add position="before"><![CDATA[
+                $filter = array(
+                'sort'        => 'name',
+                'order'       => 'ASC',
+                );
+                $results = $this->model_catalog_category->getCategories($filter);
+                foreach ($results as $result) {
+                $check = "";
+                if (in_array($result['category_id'], $categories)) {
+                $check = "checked";
+                }
+                $categories_tree[] = array(
+                'category_id'   => $result['category_id'],
+                'name'          => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+                'check'         => $check
+                );
+                }
+                $data['categories_tree'] = $categories_tree;
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/catalog/product_form.twig">
+        <operation>
+            <search><![CDATA[
+            {{ entry_category }}</span></label>
+            ]]></search>
+            <add position="replace" offset = "7"><![CDATA[
+            {{ entry_category }}</span></label>
+                <div class="col-sm-10">
+                    <div id="product-category" class="well well-sm" style="height: 150px; overflow: auto;"> {% for category in categories_tree %}
+                      <div id="product-category{{ category.category_id }}">
+                        <input type="checkbox" name="product_category[]" {{ category.check }} value="{{ category.category_id }}"> {{ category.name }}<br>
+                      </div>
+                    {% endfor %}</div>
+            ]]></add>
+        </operation>
+
+        <operation>
+            <search><![CDATA[
+            $('input[name=\'manufacturer\']').autocomplete({
+            ]]></search>
+            <add position="before" offset = "1"><![CDATA[
+              sortSelectedOptions();
+              $("#product-category").on("click", ":checkbox", function() {
+              sortSelectedOptions();
+              });
+              function sortSelectedOptions() {
+              var options = $("#product-category");
+              var original_order = options.children();
+              var i, checked = document.createDocumentFragment();
+              var unchecked = document.createDocumentFragment();
+
+              for (i = 0; i < original_order.length; i++) {
+              if (original_order[i].getElementsByTagName("input")[0].checked) {
+              checked.appendChild(original_order[i]);
+              } else {
+              unchecked.appendChild(original_order[i]);
+              }
+              }
+              options.append(checked).append(unchecked);
+              }
+            ]]></add>
+        </operation>
+    </file>
+</modification>

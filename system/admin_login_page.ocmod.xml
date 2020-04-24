@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name><![CDATA[REDS Perfect Admin Login]]></name>
+	<code><![CDATA[reds_perfect_admin_login]]></code>
+	<version><![CDATA[3.0.0]]></version>
+	<author><![CDATA[REDS]]></author>
+	<link><![CDATA[https://www.agenciaprai.com/]]></link>
+	
+	<file path="admin/controller/common/login.php">
+        <operation info="modifica qual arquivo buscar">
+            <search><![CDATA[
+				$this->response->setOutput($this->load->view('common/login', $data));
+			]]></search>
+            <add position="replace"><![CDATA[
+				$this->response->setOutput($this->load->view('extension/extension/login2', $data));
+			]]></add>
+		</operation>
+	</file>
+</modification>

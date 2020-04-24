@@ -1,0 +1,232 @@
+<modification>
+  <name>Truesupplier-account order product image</name>
+	<version>1.0</version>
+	<author>Truesupplier</author>
+	<code>Truesupplier-account order product image</code>
+  <link>http://truesupplier.net/</link>
+	<file path="catalog/controller/account/order.php">
+
+		<operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      	        $this->load->model('tool/image');
+				$product_image = $this->db->query("SELECT image FROM " . DB_PREFIX . "product WHERE product_id = '" . $product['product_id'] . "'");
+				
+				if (is_file(DIR_IMAGE . $product_image->row['image'])) {
+					$image = $this->model_tool_image->resize($product_image->row['image'], 100, 100);
+				} else {
+					$image = $this->model_tool_image->resize('no_image.png', 40, 40);
+				}
+          ]]></add>
+    </operation>  
+       <operation>
+      <search><![CDATA['reorder'  => $reorder,]]></search>
+      <add position="after"><![CDATA[
+       'image'    => $image,
+       'href'       => $this->url->link('product/product', 'product_id=' . $product['product_id']),
+          ]]></add>
+    </operation>  		
+	</file>
+
+  <file path="catalog/language/zh-TW/account/order.php">
+		<operation>
+			<search><![CDATA[$_['column_name']]]></search>
+			<add position="after"><![CDATA[
+       $_['column_image']           = '圖片';
+	        ]]></add>
+		</operation>		
+	</file>
+
+  <file path="catalog/view/theme/*/template/account/order_info.twig">
+    <operation>
+      <search><![CDATA[<td class="text-left">{{ column_name }}</td>]]></search>
+      <add position="after"><![CDATA[
+        <td class="text-left">{{ column_image }}</td>
+          ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[<td class="text-left">{{ product.model }}</td>]]></search>
+      <add position="before"><![CDATA[
+       <td class="text-left"><a href="{{ product.href }}" data-toggle="tooltip" title="{{ product.name }}" class="btn btn-primary"><img src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a></td>
+       
+          ]]></add>
+    </operation> 
+    <operation>
+      <search><![CDATA[<td colspan="3"></td>]]></search>
+      <add position="replace"><![CDATA[
+          <td colspan="4"></td>
+            ]]></add>
+    </operation>    
+  </file> 
+<!-- confirm -->
+    <file path="catalog/controller/checkout/confirm.php">
+  
+     <operation>
+       <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      	        $this->load->model('tool/image');
+				$product_image = $this->db->query("SELECT image FROM " . DB_PREFIX . "product WHERE product_id = '" . $product['product_id'] . "'");
+				
+				if (is_file(DIR_IMAGE . $product_image->row['image'])) {
+					$image = $this->model_tool_image->resize($product_image->row['image'], 100, 100);
+				} else {
+					$image = $this->model_tool_image->resize('no_image.png', 40, 40);
+				}
+          ]]></add>
+    </operation>  
+       <operation>
+      <search><![CDATA['recurring'  => $recurring,]]></search>
+      <add position="after"><![CDATA[
+       'image'    => $image,
+          ]]></add>
+    </operation>   
+     <operation>
+      <search><![CDATA[<td colspan="4" class="text-right">]]></search>
+      <add position="replace"><![CDATA[
+          <td colspan="5" class="text-right">
+            ]]></add>
+    </operation>    
+  </file>
+
+  <file path="catalog/view/theme/*/template/checkout/confirm.twig">
+    <operation>
+      <search><![CDATA[<td class="text-left">{{ column_name }}</td>]]></search>
+      <add position="after"><![CDATA[
+        <td class="text-left">{{ column_image }}</td>
+          ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[<td class="text-left">{{ product.model }}</td>]]></search>
+      <add position="before"><![CDATA[
+      <td class="text-left"><img src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></td>
+          ]]></add>
+    </operation>  
+     <operation>
+      <search><![CDATA[<td colspan="4" class="text-right"><strong>{{ total.title }}:</strong></td>]]></search>
+      <add position="replace"><![CDATA[
+          <td colspan="5" class="text-right"><strong>{{ total.title }}:</strong></td>
+            ]]></add>
+    </operation>  
+  </file>
+
+  <file path="catalog/language/zh-TW/checkout/checkout.php">
+    <operation>
+      <search><![CDATA[$_['column_name']]]></search>
+      <add position="after"><![CDATA[
+       $_['column_image']                    = '圖片';
+          ]]></add>
+    </operation>    
+  </file>
+<!--  info -->
+    <file path="admin/controller/sale/order.php">
+    	<operation>
+      <search><![CDATA[$data['products'][] = array(]]></search>
+      <add position="before"><![CDATA[
+      	$this->load->model('tool/image');
+          $product_image = $this->db->query("SELECT image FROM " . DB_PREFIX . "product p WHERE p.product_id = '" . $product['product_id'] . "'");
+
+          if (is_file(DIR_IMAGE . $product_image->row['image'])) {
+					$image = $this->model_tool_image->resize($product_image->row['image'], 100, 100);
+				} else {
+					$image = $this->model_tool_image->resize('no_image.png', 40, 40);
+				}
+            ]]></add>
+    </operation>
+ 
+       <operation>
+      <search><![CDATA['option'   		   => $option_data,]]></search>
+      <add position="after"><![CDATA[
+       'image'    => $image,
+          ]]></add>
+    </operation>      
+  </file>
+   <file path="admin/language/zh-TW/sale/order.php">
+    <operation>
+      <search><![CDATA[$_['column_product']]]></search>
+      <add position="before"><![CDATA[
+       $_['column_image']                    = '圖片';
+          ]]></add>
+    </operation>    
+  </file>
+    <file path="admin/view/template/sale/order_info.twig">
+    <operation>
+      <search><![CDATA[<td class="text-left">{{ column_product }}</td>]]></search>
+      <add position="before"><![CDATA[
+        <td class="text-left">{{ column_image }}</td>
+          ]]></add>
+    </operation>
+
+    <operation>
+      <search><![CDATA[<td colspan="4" class="text-right">]]></search>
+      <add position="replace"><![CDATA[
+       <td colspan="5" class="text-right">
+          ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[<td class="text-left"><a href="{{ product.href }}">]]></search>
+      <add position="before"><![CDATA[
+       <td class="text-conter"><img src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></td>
+          ]]></add>
+    </operation>   
+  </file>
+<!--  invoice -->
+    <file path="admin/controller/sale/order.php">
+    	<operation>
+      <search><![CDATA[$product_data[] = array(]]></search>
+      <add position="before"><![CDATA[
+      	$this->load->model('tool/image');
+          $product_image = $this->db->query("SELECT image FROM " . DB_PREFIX . "product p WHERE p.product_id = '" . $product['product_id'] . "'");
+
+          if (is_file(DIR_IMAGE . $product_image->row['image'])) {
+					$image = $this->model_tool_image->resize($product_image->row['image'], 100, 100);
+				} else {
+					$image = $this->model_tool_image->resize('no_image.png', 40, 40);
+				}
+            ]]></add>
+    </operation>
+       <operation>
+      <search><![CDATA['option'   => $option_data,]]></search>
+      <add position="after"><![CDATA[
+       'image'    => $image,
+          ]]></add>
+    </operation>      
+  </file>
+    <file path="admin/view/template/sale/order_invoice.twig">
+    <operation>
+      <search><![CDATA[<td><b>{{ column_model }}</b></td>]]></search>
+      <add position="before"><![CDATA[
+       <td><b>{{ column_image }}</b></td>
+          ]]></add>
+    </operation>   
+    <operation>
+      <search><![CDATA[<td>{{ product.model }}</td>]]></search>
+      <add position="before"><![CDATA[
+       <td><img src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></td>
+          ]]></add>
+    </operation>  
+    <operation>
+      <search><![CDATA[<td class="text-right" colspan="4">]]></search>
+      <add position="replace"><![CDATA[
+        <td class="text-right" colspan="5">
+          ]]></add>
+    </operation> 
+  </file>
+ <!--  shipping  -->
+    <file path="admin/view/template/sale/order_shipping.twig">
+    <operation>
+      <search><![CDATA[<td><b>{{ column_model }}</b></td>]]></search>
+      <add position="before"><![CDATA[
+        <td><b>{{ column_image }}</b></td>
+          ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[ <td>{{ product.model }}</td>]]></search>
+      <add position="before"><![CDATA[
+       <td class="text-conter"><img src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></td>
+          ]]></add>
+    </operation>   
+  </file>
+
+
+</modification>
+

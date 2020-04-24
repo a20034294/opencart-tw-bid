@@ -1,0 +1,95 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-basecart" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+        <h1>{{ heading_title }}</h1>
+        <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-basecart" class="form-horizontal">
+
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-custom-setting" data-toggle="tab">一般設定</a></li>
+            <li><a href="#tab-custom-css" data-toggle="tab">自訂 CSS</a></li>
+            <li><a href="#tab-custom-js" data-toggle="tab">自訂 JavaScript</a></li>
+          </ul>
+          <div class="tab-content">
+
+            <div class="tab-pane active" id="tab-custom-setting">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-nav">{{ entry_nav }}</label>
+                <div class="col-sm-10">
+                <select name="basecart_nav" id="input-nav" class="form-control">
+                    <option value="navbar-default" {{ basecart_nav == 'navbar-default' ? 'selected' : '' }}>{{ entry_default }}</option>
+                    <option value="navbar-inverse" {{ basecart_nav == 'navbar-inverse' ? 'selected' : '' }}>{{ entry_inverse }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-theme">{{ entry_theme }}</label>
+                <div class="col-sm-10">
+                  <select name="basecart_theme" id="input-theme" class="form-control">
+                    <option value="default" {{ basecart_theme == 'default' ? 'selected' : '' }}>{{ entry_default }}</option>
+                    <option value="cerulean" {{ basecart_theme == 'cerulean' ? 'selected' : '' }}>{{ entry_cerulean }}</option>
+                    <option value="cosmo" {{ basecart_theme == 'cosmo' ? 'selected' : '' }}>{{ entry_cosmo }}</option>
+                    <option value="cyborg" {{ basecart_theme == 'cyborg' ? 'selected' : '' }}>{{ entry_cyborg }}</option>
+                    <option value="darkly" {{ basecart_theme == 'darkly' ? 'selected' : '' }}>{{ entry_darkly }}</option>
+                    <option value="flatly" {{ basecart_theme == 'flatly' ? 'selected' : '' }}>{{ entry_flatly }}</option>
+                    <option value="journal" {{ basecart_theme == 'journal' ? 'selected' : '' }}>{{ entry_journal }}</option>
+                    <option value="lumen" {{ basecart_theme == 'lumen' ? 'selected' : '' }}>{{ entry_lumen }}</option>
+                    <option value="paper" {{ basecart_theme == 'paper' ? 'selected' : '' }}>{{ entry_paper }}</option>
+                    <option value="readable" {{ basecart_theme == 'readable' ? 'selected' : '' }}>{{ entry_readable }}</option>
+                    <option value="sandstone" {{ basecart_theme == 'sandstone' ? 'selected' : '' }}>{{ entry_sandstone }}</option>
+                    <option value="simplex" {{ basecart_theme == 'simplex' ? 'selected' : '' }}>{{ entry_simplex }}</option>
+                    <option value="slate" {{ basecart_theme == 'slate' ? 'selected' : '' }}>{{ entry_slate }}</option>
+                    <option value="spacelab" {{ basecart_theme == 'spacelab' ? 'selected' : '' }}>{{ entry_spacelab }}</option>
+                    <option value="superhero" {{ basecart_theme == 'superhero' ? 'selected' : '' }}>{{ entry_superhero }}</option>
+                    <option value="united" {{ basecart_theme == 'united' ? 'selected' : '' }}>{{ entry_united }}</option>
+                    <option value="yeti" {{ basecart_theme == 'yeti' ? 'selected' : '' }}>{{ entry_yeti }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="tab-custom-css">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-name">Custom CSS</label>
+                <div class="col-sm-10">
+                  <textarea name="config_custom_css" class="form-control" style="height: 300px;">{{ config_custom_css }}</textarea>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-custom-js">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-name"><span data-toggle="tooltip" title="Note that JavaScript must be wrapped by script tag.">Custom JavaScript</span></label>
+                <div class="col-sm-10">
+                  <textarea name="config_custom_js" class="form-control" style="height: 300px;" placeholder="<script>alert('hello Dear User');</script>">{{ config_custom_js }}</textarea>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}
