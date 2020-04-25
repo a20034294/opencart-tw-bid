@@ -30,11 +30,8 @@
             <li><a href="#tab-links" data-toggle="tab">{{ tab_links }}</a></li>
             <li><a href="#tab-attribute" data-toggle="tab">{{ tab_attribute }}</a></li>
             <li><a href="#tab-option" data-toggle="tab">{{ tab_option }}</a></li>
-            <li><a href="#tab-recurring" data-toggle="tab">{{ tab_recurring }}</a></li>
-            <li><a href="#tab-discount" data-toggle="tab">{{ tab_discount }}</a></li>
             <li><a href="#tab-special" data-toggle="tab">{{ tab_special }}</a></li>
             <li><a href="#tab-image" data-toggle="tab">{{ tab_image }}</a></li>
-            <li><a href="#tab-reward" data-toggle="tab">{{ tab_reward }}</a></li>
             <li><a href="#tab-seo" data-toggle="tab">{{ tab_seo }}</a></li>
             <li><a href="#tab-design" data-toggle="tab">{{ tab_design }}</a></li>
           </ul>
@@ -100,51 +97,45 @@
                   {% endif %}</div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-sku"><span data-toggle="tooltip" title="{{ help_sku }}">{{ entry_sku }}</span></label>
+                <label class="col-sm-2 control-label" for="input-bid-status">{{ text_bid_status }}</label>
                 <div class="col-sm-10">
-                  <input type="text" name="sku" value="{{ sku }}" placeholder="{{ entry_sku }}" id="input-sku" class="form-control"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-upc"><span data-toggle="tooltip" title="{{ help_upc }}">{{ entry_upc }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="upc" value="{{ upc }}" placeholder="{{ entry_upc }}" id="input-upc" class="form-control"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-ean"><span data-toggle="tooltip" title="{{ help_ean }}">{{ entry_ean }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="ean" value="{{ ean }}" placeholder="{{ entry_ean }}" id="input-ean" class="form-control"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-jan"><span data-toggle="tooltip" title="{{ help_jan }}">{{ entry_jan }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="jan" value="{{ jan }}" placeholder="{{ entry_jan }}" id="input-jan" class="form-control"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-isbn"><span data-toggle="tooltip" title="{{ help_isbn }}">{{ entry_isbn }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="isbn" value="{{ isbn }}" placeholder="{{ entry_isbn }}" id="input-isbn" class="form-control"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-mpn"><span data-toggle="tooltip" title="{{ help_mpn }}">{{ entry_mpn }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="mpn" value="{{ mpn }}" placeholder="{{ entry_mpn }}" id="input-mpn" class="form-control"/>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-location">{{ entry_location }}</label>
-                <div class="col-sm-10">
-                  <input type="text" name="location" value="{{ location }}" placeholder="{{ entry_location }}" id="input-location" class="form-control"/>
+                  <select name="tax_class_id" id="input-bid-status" class="form-control">
+                    <option value="1">{{ text_is_bid }}</option>
+                    <option value="0">{{ text_not_bid }}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-price">{{ entry_price }}</label>
                 <div class="col-sm-10">
                   <input type="text" name="price" value="{{ price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-price-start">{{ text_price_start }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="price-start" value="{{ price_start }}" id="input-price-start" class="form-control"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-price">{{ text_price_minadd }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="price-minadd" value="{{ price_minadd }}" id="input-price" class="form-control"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-bid-endtime">{{ text_bid_endtime }}</label>
+                <div class="col-sm-3">
+                  <div class="input-group datetime">
+                    <input type="text" name="bid-endtime" value="{{ bid_endtime }}" data-date-format="YYYY-MM-DD hh:mm:ss" id="input-bid-endtime" class="form-control"/> <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                    </span></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-location">{{ entry_location }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="location" value="{{ location }}" placeholder="{{ entry_location }}" id="input-location" class="form-control"/>
                 </div>
               </div>
               <div class="form-group">

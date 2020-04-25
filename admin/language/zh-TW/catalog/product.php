@@ -100,3 +100,11 @@ $_['error_meta_title']			= 'Meta標題必須在 1 到 255 個字！';
 $_['error_model']				= '商品型號必須在 1 到 64 個字！';
 $_['error_seo']					= '靜態網址(SEO URL)必須輸入!';
 $_['error_keyword']				= '靜態網址(SEO URL)必須是沒有重複的!';
+
+// Bid
+$_['text_bid_status']			= '是否拍賣';
+$_['text_price_start']			= '起標價格';
+$_['text_price_minadd']			= '出價增額';
+$_['text_bid_endtime']			= '結標時間';
+$_['text_is_bid']				= '拍賣出售';
+$_['text_not_bid']				= '定價出售';
