@@ -99,9 +99,14 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-bid-status">{{ text_bid_status }}</label>
                 <div class="col-sm-10">
-                  <select name="tax_class_id" id="input-bid-status" class="form-control">
-                    <option value="1">{{ text_is_bid }}</option>
+                  <select name="bid_status" id="input-bid-status" class="form-control">
+                  {% if bid_status == 1 %}
+                    <option value="1" selected="selected">{{ text_is_bid }}</option>
                     <option value="0">{{ text_not_bid }}</option>
+                  {% else %}
+                    <option value="1">{{ text_is_bid }}</option>
+                    <option value="0" selected="selected">{{ text_not_bid }}</option>
+                  {% endif %}
                   </select>
                 </div>
               </div>
@@ -114,20 +119,20 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-price-start">{{ text_price_start }}</label>
                 <div class="col-sm-10">
-                  <input type="text" name="price-start" value="{{ price_start }}" id="input-price-start" class="form-control"/>
+                  <input type="text" name="price_start" value="{{ price_start }}" id="input-price-start" class="form-control"/>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-price">{{ text_price_minadd }}</label>
                 <div class="col-sm-10">
-                  <input type="text" name="price-minadd" value="{{ price_minadd }}" id="input-price" class="form-control"/>
+                  <input type="text" name="price_minadd" value="{{ price_minadd }}" id="input-price" class="form-control"/>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-bid-endtime">{{ text_bid_endtime }}</label>
                 <div class="col-sm-3">
                   <div class="input-group datetime">
-                    <input type="text" name="bid-endtime" value="{{ bid_endtime }}" data-date-format="YYYY-MM-DD hh:mm:ss" id="input-bid-endtime" class="form-control"/> <span class="input-group-btn">
+                    <input type="text" name="bid_endtime" value="{{ bid_endtime }}" data-date-format="YYYY-MM-DD hh:mm:ss" id="input-bid-endtime" class="form-control"/> <span class="input-group-btn">
                     <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
                     </span></div>
                 </div>

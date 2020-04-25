@@ -121,6 +121,19 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 		}
+
+		// Product Bid
+
+		if (isset($data['price_start']) && isset($data['price_minadd']) && isset($data['bid_status']) && isset($data['bid_endtime'])) {
+			$this->db->query("INSERT INTO " . DB_PREFIX .
+				"product_bid SET product_id = '" . (int)$product_id .
+				"', price_now = '" . (int)$data['price_start'] .
+				"', price_start = '" . (int)$data['price_start'] .
+				"', price_minadd = '" . (int)$data['price_minadd'] .
+				"', bid_status = '" . (int)$data['bid_status'] .
+				"', bid_endtime = '" . $this->db->escape($data['bid_endtime']) . "'"
+			);
+		}
 		
 		if (isset($data['product_layout'])) {
 			foreach ($data['product_layout'] as $store_id => $layout_id) {
@@ -281,6 +294,29 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 		}
+
+		// Product Bid
+		if (isset($data['price_start']) && isset($data['price_minadd']) && isset($data['bid_status']) && isset($data['bid_endtime'])) {
+			$old_data = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "product_bid WHERE product_id = '" . (int)$product_id . "'")->row;
+			if ($old_data) {
+				$price_now = $old_data['price_now'];
+				$bid_count = $old_data['bid_count'];
+			} else {
+				$price_now = (int)$data['price_start'];
+				$bid_count = 0;
+			}
+			$this->db->query("DELETE FROM " . DB_PREFIX . "product_bid WHERE product_id = '" . (int)$product_id . "'");
+
+			$this->db->query("INSERT INTO " . DB_PREFIX .
+				"product_bid SET product_id = '" . (int)$product_id .
+				"', price_now = '" . $price_now .
+				"', price_start = '" . (int)$data['price_start'] .
+				"', price_minadd = '" . (int)$data['price_minadd'] .
+				"', bid_count = '" . $bid_count .
+				"', bid_status = '" . (int)$data['bid_status'] .
+				"', bid_endtime = '" . $this->db->escape($data['bid_endtime']) . "'"
+			);
+		}
 		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_layout WHERE product_id = '" . (int)$product_id . "'");
 
@@ -319,6 +355,7 @@ class ModelCatalogProduct extends Model {
 			$data['product_layout'] = $this->getProductLayouts($product_id);
 			$data['product_store'] = $this->getProductStores($product_id);
 			$data['product_recurrings'] = $this->getRecurrings($product_id);
+			$data['product_bid'] = $this->getProductBid($product_id);
 
 			$this->addProduct($data);
 		}
@@ -345,6 +382,7 @@ class ModelCatalogProduct extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "review WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "seo_url WHERE query = 'product_id=" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "coupon_product WHERE product_id = '" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_bid WHERE product_id = '" . (int)$product_id . "'");
 
 		$this->cache->delete('product');
 	}
@@ -629,6 +667,12 @@ class ModelCatalogProduct extends Model {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_recurring` WHERE product_id = '" . (int)$product_id . "'");
 
 		return $query->rows;
+	}
+
+	public function getProductBid($product_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product_bid` WHERE product_id = '" . (int)$product_id . "'");
+
+		return $query->row;
 	}
 
 	public function getTotalProducts($data = array()) {

@@ -1152,6 +1152,18 @@ class ControllerCatalogProduct extends Controller {
 			$data['product_seo_url'] = array();
 		}
 
+		// Product Bid
+		$bid_row = $this->model_catalog_product->getProductBid($this->request->get['product_id']);
+		if ($bid_row) {
+			$data['price_now'] = $bid_row['price_now'];
+			$data['price_start'] = $bid_row['price_start'];
+			$data['price_minadd'] = $bid_row['price_minadd'];
+			$data['bid_count'] = $bid_row['bid_count'];
+			$data['bid_status'] = $bid_row['bid_status'];
+			$data['bid_endtime'] = $bid_row['bid_endtime'];
+		}
+
+		// Layout
 		if (isset($this->request->post['product_layout'])) {
 			$data['product_layout'] = $this->request->post['product_layout'];
 		} elseif (isset($this->request->get['product_id'])) {
