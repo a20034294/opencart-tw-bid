@@ -124,6 +124,12 @@ class ModelCatalogProduct extends Model {
 
 		// Product Bid
 
+		if (isset($data['product_bid'])) {
+			foreach ($data['product_bid'] as $key => $value) {
+				$data[$key] = $value;
+			}
+		}
+
 		if (isset($data['price_start']) && isset($data['price_minadd']) && isset($data['bid_status']) && isset($data['bid_endtime'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX .
 				"product_bid SET product_id = '" . (int)$product_id .
