@@ -91,6 +91,12 @@ $_['text_openbay_report_price'] = '價格列表';
 $_['text_openbay_order_import'] = '訂單匯入';
 $_['text_paypal']               = 'PayPal';
 $_['text_paypal_search']        = '搜尋交易記錄';
-$_['text_complete_status']      = '已完成訂單數'; 
-$_['text_processing_status']    = '處理中訂單數'; 
+$_['text_complete_status']      = '已完成訂單數';
+$_['text_processing_status']    = '處理中訂單數';
 $_['text_other_status']         = '其他訂單數';
+
+# Custom Section
+$_['text_featured']             = '首頁特色商品';
+$_['text_special']              = '首頁特價商品';
+$_['text_slideshow']            = '首頁 Slider 廣告';
+$_['text_slideshow_right']      = '首頁 Slider 右側 Banners';

@@ -224,6 +224,30 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 						
+			if ($this->user->hasPermission('access', 'extension/module/featured')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_featured'),
+					'href'     => $this->url->link('extension/module/featured', 'user_token=' . $this->session->data['user_token'] . '&module_id=28', true),
+					'children' => array()		
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'design/banner')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_slideshow'),
+					'href'     => $this->url->link('design/banner/edit', 'user_token=' . $this->session->data['user_token'] . '&banner_id=7', true),
+					'children' => array()		
+				);
+			}
+						
+			if ($this->user->hasPermission('access', 'design/banner')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_slideshow_right'),
+					'href'     => $this->url->link('design/banner/edit', 'user_token=' . $this->session->data['user_token'] . '&banner_id=9', true),
+					'children' => array()		
+				);
+			}
+						
 			if ($design) {
 				$data['menus'][] = array(
 					'id'       => 'menu-design',
