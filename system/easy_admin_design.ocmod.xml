@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <code>Easy Admin Design</code>
+    <name>Easy Admin Design</name>
+    <version>1.0</version>
+    <author>LAN Studio</author>
+    <file path="admin/controller/common/column_left.php">
+        <operation>
+            <search><![CDATA[
+            if ($design) {
+            ]]></search>
+            <add position="before"><![CDATA[
+            if ($this->user->hasPermission('access', 'extension/module/featured')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_featured'),
+					'href'     => $this->url->link('extension/module/featured', 'user_token=' . $this->session->data['user_token'] . '&module_id=28', true),
+					'children' => array()		
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'design/banner')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_slideshow'),
+					'href'     => $this->url->link('design/banner/edit', 'user_token=' . $this->session->data['user_token'] . '&banner_id=7', true),
+					'children' => array()		
+				);
+			}
+						
+			if ($this->user->hasPermission('access', 'design/banner')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_slideshow_right'),
+					'href'     => $this->url->link('design/banner/edit', 'user_token=' . $this->session->data['user_token'] . '&banner_id=9', true),
+					'children' => array()		
+				);
+			}
+            ]]>
+            </add>
+        </operation>
+    </file>
+	<file path="admin/language/zh-TW/common/column_left.php">
+        <operation>
+            <search><![CDATA[
+            $_['text_other_status']         = '其他訂單數';
+            ]]></search>
+            <add position="after"><![CDATA[
+
+# Custom Section
+$_['text_featured']             = '首頁特色商品';
+$_['text_special']              = '首頁特價商品';
+$_['text_slideshow']            = '首頁 Slider 廣告';
+$_['text_slideshow_right']      = '首頁 Slider 右側 Banners';
+]]>
+            </add>
+        </operation>
+    </file>
+</modification>
