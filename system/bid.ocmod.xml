@@ -150,6 +150,9 @@ $_['text_not_bid']				= '定價出售';
 				$price_now = (int)$data['price_start'];
 				$bid_count = 0;
 			}
+            if ($data['bid_status'] == 1) {
+				$this->db->query("UPDATE " . DB_PREFIX . "product SET price = '" . (float)$data['price_start'] . "' WHERE product_id = '" . (int)$product_id . "'");
+			}
 			$this->db->query("DELETE FROM " . DB_PREFIX . "product_bid WHERE product_id = '" . (int)$product_id . "'");
 
 			$this->db->query("INSERT INTO " . DB_PREFIX .
