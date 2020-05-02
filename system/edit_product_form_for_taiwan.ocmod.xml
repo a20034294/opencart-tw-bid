@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <code>Edit Product Form for Taiwan</code>
+    <name>Edit Product Form for Taiwan</name>
+    <version>1.0</version>
+    <author>LAN Studio</author>
+    <file path="admin/view/template/catalog/product_form.twig">
+        <operation>
+            <search><![CDATA[
+            <li><a href="#tab-recurring" data-toggle="tab">{{ tab_recurring }}</a></li>	
+            ]]></search>
+            <add position="replace"><![CDATA[]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[
+            <li><a href="#tab-discount" data-toggle="tab">{{ tab_discount }}</a></li>
+            ]]></search>
+            <add position="replace"><![CDATA[]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[
+            <li><a href="#tab-reward" data-toggle="tab">{{ tab_reward }}</a></li>
+            ]]></search>
+            <add position="replace"><![CDATA[]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[
+            <label class="col-sm-2 control-label" for="input-sku"><span data-toggle="tooltip" title="{{ help_sku }}">{{ entry_sku }}</span></label>
+            ]]>
+            </search>
+            <add position="replace" offset="35"><![CDATA[]]>
+            </add>
+        </operation>
+ 
+    </file>
+
+</modification>
