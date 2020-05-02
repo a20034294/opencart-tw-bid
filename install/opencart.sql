@@ -1233,6 +1233,28 @@ CREATE TABLE `oc_event` (
   PRIMARY KEY (`event_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+-----------------------------------------------------------
+
+--
+-- Table structure for table `oc_product_bid`
+--
+
+DROP TABLE IF EXISTS `oc_product_bid`;
+CREATE TABLE `oc_product_bid` (
+  `product_id` int(11) NOT NULL,
+  `price_now` int(11) NOT NULL,
+  `price_start` int(11) NOT NULL,
+  `price_minadd` int(11) NOT NULL,
+  `bid_status` tinyint(1) NOT NULL,
+  `bid_endtime` datetime NOT NULL,
+  `bid_count` int(11) NOT NULL,
+  `bid_max` int(11),
+  `bid_user_id` int(11),
+  PRIMARY KEY (`product_id`),
+  KEY `bid_user_id` (`bid_user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
 --
 -- Dumping data for table `oc_event`
 --
