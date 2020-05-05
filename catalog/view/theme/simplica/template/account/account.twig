@@ -45,12 +45,12 @@
 				<div class="col-lg-12">
 					<ul class="customer-account"><h2>{{ text_my_orders }}</h2>
 						<a href="{{ order }}" class="col-sm-2 col-xs-12"><i class="fa fa-shopping-cart" aria-hidden="true"></i><hr />{{ text_order }}</a>
-						<a href="{{ download }}" class="col-sm-2 col-xs-12"><i class="fa fa-download" aria-hidden="true"></i><hr />{{ text_download }}</a>
+						<!--a href="{{ download }}" class="col-sm-2 col-xs-12"><i class="fa fa-download" aria-hidden="true"></i><hr />{{ text_download }}</a-->
 						{% if reward %}
-						<a href="{{ reward }}" class="col-sm-2 col-xs-12"><i class="fa fa-gift" aria-hidden="true"></i><hr />{{ text_reward }}</a>
+						<!--a href="{{ reward }}" class="col-sm-2 col-xs-12"><i class="fa fa-gift" aria-hidden="true"></i><hr />{{ text_reward }}</a-->
 						{% endif %}
-						<a href="{{ return }}" class="col-sm-2 col-xs-12"><i class="fa fa-retweet" aria-hidden="true"></i><hr />{{ text_return }}</a>
-						<a href="{{ transaction }}" class="col-sm-2 col-xs-12"><i class="fa fa-money" aria-hidden="true"></i><hr />{{ text_transaction }}</a>
+						<!--a href="{{ return }}" class="col-sm-2 col-xs-12"><i class="fa fa-retweet" aria-hidden="true"></i><hr />{{ text_return }}</a-->
+						<!--a href="{{ transaction }}" class="col-sm-2 col-xs-12"><i class="fa fa-money" aria-hidden="true"></i><hr />{{ text_transaction }}</a-->
 						<!--a href="{{ recurring }}" class="col-sm-2 col-xs-12"><i class="fa fa-repeat" aria-hidden="true"></i><hr />{{ text_recurring }}</a-->
 					</ul>
 				</div>
@@ -60,9 +60,9 @@
 				<div class="col-lg-12">
 					<ul class="customer-account"><h2>其他</h2>
 						{% if not tracking %}
-						<a href="{{ affiliate }}" class="col-sm-2 col-xs-12"><i class="fa fa-handshake-o" aria-hidden="true"></i><hr />{{ text_affiliate_add }}</a>
+						<!--a href="{{ affiliate }}" class="col-sm-2 col-xs-12"><i class="fa fa-handshake-o" aria-hidden="true"></i><hr />{{ text_affiliate_add }}</a-->
 						{% else %}
-						<a href="{{ affiliate }}" class="col-sm-2 col-xs-12">{{ text_affiliate_edit }}</a>
+						<!--a href="{{ affiliate }}" class="col-sm-2 col-xs-12">{{ text_affiliate_edit }}</a-->
 						<a href="{{ tracking }}" class="col-sm-2 col-xs-12">{{ text_tracking }}</a>
 						{% endif %}
 						<a href="{{ newsletter }}" class="col-sm-2 col-xs-12"><i class="fa fa-newspaper-o" aria-hidden="true"></i><hr />{{ text_newsletter }}</a>
