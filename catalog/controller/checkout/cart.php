@@ -271,7 +271,10 @@ class ControllerCheckoutCart extends Controller {
 		}
 
 		$this->load->model('catalog/product');
-
+		$bid_row = $this->model_catalog_product->getProductBid($product_id);
+		if ($bid_row['bid_status']) {
+			return;
+		}
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
 		if ($product_info) {

@@ -48,3 +48,11 @@ $_['tab_review']               = '商品評論 (已有 %s 筆商品評論)';
 $_['error_name']               = '警告：評論者姓名必須是 3 到 25 個字！';
 $_['error_text']               = '警告：評論內容必須是 25 到 1000 個字！';
 $_['error_rating']             = '警告：請選擇一個評價！';
+
+$_['text_bid_status']			= '是否拍賣';
+$_['text_price_start']			= '起標價格：';
+$_['text_price_minadd']			= '出價增額：';
+$_['text_bid_count']			= '出價次數：';
+$_['text_bid_endtime']			= '結標時間：';
+$_['text_is_bid']				= '拍賣出售';
+$_['text_not_bid']				= '定價出售';

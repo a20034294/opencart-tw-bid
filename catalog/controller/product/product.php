@@ -436,6 +436,18 @@ class ControllerProductProduct extends Controller {
 			}
 
 			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
+			
+			$bid_row = $this->model_catalog_product->getProductBid($this->request->get['product_id']);
+			if ($bid_row) {
+				$data['price_now'] = $bid_row['price_now'];
+				$data['price_start'] = $bid_row['price_start'];
+				$data['price_minadd'] = $bid_row['price_minadd'];
+				$data['bid_count'] = $bid_row['bid_count'];
+				$data['bid_status'] = $bid_row['bid_status'];
+				$data['bid_endtime'] = $bid_row['bid_endtime'];
+				$data['bid_max'] = $bid_row['bid_max'];
+				$data['bid_user_id'] = $bid_row['bid_user_id'];
+			}
 
 			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
 			

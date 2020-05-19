@@ -49,11 +49,18 @@
             <li>{{ text_reward }} {{ reward }}</li>
             {% endif %}
             <li>{{ text_stock }} {{ stock }}</li>
+            {% if bid_status == 1 %}
+            <li>{{ text_price_start }} {{ price_start }}</li>
+            <li>{{ text_price_minadd }} {{ price_minadd }}</li>
+            <li>{{ text_bid_count }} {{ bid_count }}</li>
+            <li>{{ text_bid_endtime }} {{ bid_endtime }}</li>
+            {% endif %}
           </ul>
           {% if price %}
           <ul class="list-unstyled">
             {% if not special %}
             <li>
+              <h2>目前出價：</h2>
               <h2 class="price">{{ price }}</h2>
             </li>
             {% else %}
@@ -195,6 +202,20 @@
             {% endif %}
 
               <div class="row" style="margin-top:24px; margin-bottom:24px;">
+                {% if bid_status == 1 %}
+                <div class="col-sm-4 col-xs-4">
+                  <select name="bid_auto" id="input-bid-status" class="form-control">
+                      <option value="0" selected="selected">{{ "直接出價" }}</option>
+                      <option value="1">{{ "自動出價" }}</option>
+                  </select>
+                </div>
+                <!--div class="col-xs-3 input-group number-spinner"-->
+                <div class="col-sm-4 col-xs-4">
+                  <div class="input-group number-spinner" style="padding-right:6px;">
+                  <input type="text" name="new_price" value="{{ price_now + price_minadd }}" id="input-quantity" class="form-control text-center" style="min-width:60px;" />
+                  </div>
+                </div>
+                {% else %}
                 <div class="col-sm-2 col-xs-2">
                   <label class="control-label" for="input-quantity">{{ entry_qty }}</label>
                 </div>
@@ -206,15 +227,20 @@
                   <span class="input-group-btn"><button class="btn btn-default" data-dir="up"><i class="fa fa-plus"></i></button></span>
                   </div>
                 </div>
-
-               <div class="col-sm-6 col-xs-6">
-                  <input type="hidden" name="product_id" value="{{ product_id }}" />
-                  <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary">{{ button_cart }}</button>
-                  <button type="button" data-toggle="tooltip" class="btn btn-default" style="margin-left:2px; margin-right:2px;" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product_id }}');"><i class="fa fa-heart"></i></button>
-                  <button type="button" data-toggle="tooltip" class="btn btn-default" title="{{ button_compare }}" onclick="compare.add('{{ product_id }}');"><i class="fa fa-exchange"></i></button>
-                </div>
+                {% endif %}
+                
               </div>
-
+            <div class="row" style="margin-top:24px; margin-bottom:24px;">
+              <div class="col-sm-8 col-xs-8">
+                <input type="hidden" name="product_id" value="{{ product_id }}" />
+                {% if bid_status == 1 %}
+                <button type="button" id="button-new-bid" data-loading-text="{{ text_loading }}" class="btn btn-primary">{{ "我要出價" }}</button>
+                {% else %}
+                <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary">{{ button_cart }}</button>
+                {% endif %}
+                <button type="button" data-toggle="tooltip" class="btn btn-default" style="margin-left:2px; margin-right:2px;" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product_id }}');"><i class="fa fa-heart"></i></button>
+              </div>
+            </div>
             {% if minimum > 1 %}
             <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_minimum }}</div>
             {% endif %}</div>
@@ -455,6 +481,41 @@ $('#button-cart').on('click', function() {
         error: function(xhr, ajaxOptions, thrownError) {
             alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
+	});
+});
+
+$('#button-new-bid').on('click', function() {
+	$.ajax({
+		url: 'index.php?route=checkout/bid/add',
+		type: 'post',
+		data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
+		dataType: 'json',
+		beforeSend: function() {
+			$('#button-new-bid').button('loading');
+		},
+		complete: function() {
+			$('#button-new-bid').button('reset');
+		},
+		success: function(json) {
+      $('.alert-dismissible').remove();
+      if (json['error']) {
+        if (json['error']['login']) {
+          window.location.href = json['redirect'];
+        }
+        for (i in json['error']) {
+          $('.breadcrumb').after('<div class="alert alert-danger alert-dismissible">' + json['error'][i] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        }
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
+			}
+      if (json['success']) {
+        location.reload();
+      }
+		},
+    error: function(xhr, ajaxOptions, thrownError) {
+        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
 	});
 });
 //--></script> 

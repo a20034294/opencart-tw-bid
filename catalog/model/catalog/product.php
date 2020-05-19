@@ -536,4 +536,10 @@ class ModelCatalogProduct extends Model {
 			return 0;
 		}
 	}
+
+	public function getProductBid($product_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product_bid` WHERE product_id = '" . (int)$product_id . "'");
+
+		return $query->row;
+	}
 }
