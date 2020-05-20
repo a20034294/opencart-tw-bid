@@ -58,7 +58,12 @@
           </ul>
           {% if price %}
           <ul class="list-unstyled">
-            {% if not special %}
+            {% if bid_status == 1 %}
+            <li>
+              <h2>目前出價：</h2>
+              <h2 class="price">{{ price_now }}</h2>
+            </li>
+            {% elseif not special %}
             <li>
               <h2>目前出價：</h2>
               <h2 class="price">{{ price }}</h2>

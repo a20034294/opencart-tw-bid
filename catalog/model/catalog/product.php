@@ -542,4 +542,17 @@ class ModelCatalogProduct extends Model {
 
 		return $query->row;
 	}
+
+	public function newProductBid($product_id, $data) {
+		$status = array();
+		$this->db->query("UPDATE `" . DB_PREFIX . "product_bid` SET ".
+		"price_now = '" . (int)$data['price_now'] .
+		"', price_minadd = '" . (int)$data['price_minadd'] .
+		"', bid_count = '" . (int)$data['bid_count'] .
+		"', bid_status = '" . (int)$data['bid_status'] .
+		"', bid_max = '" . (int)$data['bid_max'] .
+		"', bid_user_id = '" . (int)$data['bid_user_id'] .
+		"' WHERE product_id = '" . (int)$product_id . "'"
+		);
+	}
 }
