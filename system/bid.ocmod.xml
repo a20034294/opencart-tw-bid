@@ -86,7 +86,9 @@ $_['text_not_bid']				= '定價出售';
             ]]></search>
             <add position="before"><![CDATA[
 		// Product Bid
-		$bid_row = $this->model_catalog_product->getProductBid($this->request->get['product_id']);
+    if (isset($this->request->get['product_id'])) {
+			$bid_row = $this->model_catalog_product->getProductBid($this->request->get['product_id']);
+		}
 		if ($bid_row) {
 			$data['price_now'] = $bid_row['price_now'];
 			$data['price_start'] = $bid_row['price_start'];

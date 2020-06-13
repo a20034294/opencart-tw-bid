@@ -18,8 +18,8 @@ h6 { font-size: 12px; }
 
 .container { padding: 0 5px; }
 
-a { color: #007acc; }
-a:hover { text-decoration: none; color: #000;}
+a { color: #000; }
+a:hover { text-decoration: none; color: #007acc;}
 legend { font-size: 18px; padding: 7px 0px }
 label { font-size: 14px; font-weight: normal; }
 select.form-control, textarea.form-control, input[type="text"].form-control, input[type="password"].form-control, input[type="datetime"].form-control, input[type="datetime-local"].form-control, input[type="date"].form-control, input[type="month"].form-control, input[type="time"].form-control, input[type="week"].form-control, input[type="number"].form-control, input[type="email"].form-control, input[type="url"].form-control, input[type="search"].form-control, input[type="tel"].form-control, input[type="color"].form-control { font-size: 12px; }
@@ -211,7 +211,18 @@ footer li a:hover{color:#FFD54F; text-decoration:underline;}
 }
 .product-thumb .caption{text-align:center;}
 .product-thumb .caption > p{display:none;}
-.product-thumb .caption > p.price{display:block; font-size: 16px; color: #ED3729;}
+.product-thumb .caption > p.price{
+    display: block;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    max-height: 42px;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: bold;
+    color: #888;
+    display: block;
+    float: left;
+}
 .product-list .product-thumb .caption { margin-left: 230px; text-align:left;}
 @media (max-width: 767px) {
 .product-list .product-thumb .caption {
@@ -303,3 +314,35 @@ h2.price { margin: 0; color: #ED3729; font-family: verdana; margin-bottom:12px;}
 }
 /* Missing focus and border color to overwrite bootstrap */
 .btn-info:hover, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled] { background-image: none; background-color: #df5c39; }
+
+.caption-a {
+	letter-spacing: 0.5px;
+    max-height: 42px;
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+    display: block;
+    float: left;
+}
+
+.sort-col {
+	letter-spacing: 0.5px;
+    overflow: hidden;
+    font-size: 16px;
+    padding-left: 32px;
+    padding-bottom: 32px;
+    font-weight: bold;
+    color: #000;
+    display: block;
+    float: left;
+}
+
+.caption-img {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+    max-height: 181px;
+    max-width: 178px;
+}
