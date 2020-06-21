@@ -346,3 +346,9 @@ h2.price { margin: 0; color: #ED3729; font-family: verdana; margin-bottom:12px;}
     max-height: 181px;
     max-width: 178px;
 }
+
+.login{ text-align:center; float:right; margin:15px 0px 15px 0px; padding: 5px 5px; border:1px solid #333;}
+.login a{ display: block; color:#333; line-height: 30px;width: 150px; margin: 0 !important;}
+.login a:hover{ text-decoration:none; color:#FFF;}
+.header-col{ margin:15px 0px 15px 0px; padding: 5px 5px;}
+.menu-group{text-align:center; margin:15px 0px 15px 0px; padding: 5px 5px;}
