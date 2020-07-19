@@ -34,7 +34,7 @@ div.required .control-label:before { content: '* '; color: #F00; font-weight: bo
 .dropdown-menu{border:none;}
 #product{margin-top:10px;}
 /* top */
-#top { background-color:#607D8B; padding:0; margin: 0 0 25px 0; min-height: 36px; }
+#top { background-color:#FFFFFF; padding:0; margin: 0 0 25px 0; min-height: 36px; }
 #top .container { padding: 0 5px; }
 #top #form-currency .currency-select, #top #form-language .language-select { text-align: left; color:#333; font-size:13px; padding:3px 16px;}
 #top #form-currency .currency-select:hover, #top #form-language .language-select:hover { text-shadow: none; text-decoration:none; color: #007acc; background-color: #eee;}
@@ -188,8 +188,9 @@ footer li a:hover{color:#FFD54F; text-decoration:underline;}
 .btn-inverse:hover, .btn-inverse:active, .btn-inverse.active, .btn-inverse.disabled, .btn-inverse[disabled] { background-color: #222222;}
 
 /* list group */
-.list-group a { border: 1px solid #DDDDDD; color: #888888; padding: 8px 12px; }
-.list-group a.active, .list-group a.active:hover, .list-group a:hover { color: #007acc; background: #eeeeee; border: 1px solid #DDDDDD; }
+.list-group a { border: 0px; padding: 8px 12px; font-size: 16px; font-weight: bold; display: block; color: #333; }
+.list-group a.active, .list-group a.active:hover, .list-group a:hover { color: #333; background: #eeeeee; border: 0px; }
+.list-group .list-group-item-child { border: 0px; padding: 8px 12px; font-size: 14px;font-weight: bold; display: block; color: #555; padding: 5px 0px 5px 15px;}
 
 /* carousel */
 .carousel-caption { color: #FFFFFF; text-shadow: 0 1px 0 #000000; }
@@ -351,4 +352,4 @@ h2.price { margin: 0; color: #ED3729; font-family: verdana; margin-bottom:12px;}
 .login a{ display: block; color:#333; line-height: 30px;width: 150px; margin: 0 !important;}
 .login a:hover{ text-decoration:none; color:#FFF;}
 .header-col{ margin:15px 0px 15px 0px; padding: 5px 5px;}
-.menu-group{text-align:center; margin:15px 0px 15px 0px; padding: 5px 5px;}
+.menu-group{text-align:center; margin:10px 0px 10px 0px; padding: 0px 0px;}

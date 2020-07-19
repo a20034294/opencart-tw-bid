@@ -1,0 +1,23 @@
+<aside class="menu_right" style="position: fixed;right: 0px;top: 200px;">
+        <div class="fft" style="background-color: #4CFBFB;">
+            <a href="/cht/news/list" title="最新消息" class="cl"><span class="glyphicon glyphicon-sort-by-order" style="font-size: 40px;"></span></a>
+            <div title="搜尋" class="se" id="search_form"><span class="glyphicon glyphicon-sort-by-order" style="font-size: 40px;"></span>
+                <div class="search">
+                    <div class="srbox clearfix">
+                    <div class="tri"></div>
+                        <form action="/cht/search" method="get" class="wrapper" id="cse-search-box">
+                            <input type="text" name="q" id="q" rel="請輸入關鍵字" placeholder="請輸入關鍵字" class="seart">
+                            <select name="search_type" class="srbox prbox fleft">
+                                <option value="1">商品搜尋</option>
+                                <option value="2">站內搜尋</option>
+                            </select>
+                            <button class="btn_sear" type="button" onclick="submit_form('cse-search-box');">搜尋</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ account }}" title="會員專區" class="sh"><span class="glyphicon glyphicon-sort-by-order" style="font-size: 40px;"></span></a>
+            <a href="{{ contact }}" title="預約看貨" class="wr"><span class="glyphicon glyphicon-sort-by-order" style="font-size: 40px;"></span></a>
+            <a href="{{ contact }}" class="em" title="聯絡再生" onclick="colorbox('/cht/contact/colorbox',755,625);"><span class="glyphicon glyphicon-sort-by-order" style="font-size: 40px;"></span></a>
+        </div>
+</aside>

@@ -1,0 +1,88 @@
+{{ header }}
+<div id="common-home" class="container">
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">
+    {{ content_top }}
+
+    <ul class="rule">
+        <li class="clearfix"><span>1</span>
+        <p><span style="color:#FF0000;"><strong>本賣場是以同行買家為主，非同行買家請勿下拍，下拍者真假好壞自行負責，本賣場對拍品物件不負擔任何責任。</strong></span><strong class="red">所有物品均屬舊貨及再生資源或委託上拍品，真、假、好、壞一定有，因此，我們不負責判斷真假、好壞價值，</strong>請買家小心認定，看不懂請勿下標，不要貪小便宜以免遺憾（歡迎現場面交及查證）。<br>
+        <strong>The web is exclusively for peer buyers only. Bidding service is unavailable for non-peer bidders. Some material on website is provided by third parties and the company shall not be held responsible for any such material.</strong></p>
+        </li>
+        <li class="clearfix"><span>2</span>
+        <p><span style="color:#FF0000;"><strong class="red">本賣場關於拍品標題及內容描述，僅供參考，無法作為拍品真實性之佐證，亦不構成任何交易承諾與依據，競標者務必請於下拍前 自行前來確認商品狀況，如有任何疑慮請勿下拍。</strong></span><br>
+        <strong>Captions and Product descriptions on website are for reference only. These cannot be the guarantee of authernticity of products, nor can be sourcing basis and effectiveness of any transaction. Bidders must confirm the condition of&nbsp; products before making a bid. Do not bid if you have any concern on items.</strong></p>
+        </li>
+        <li class="clearfix"><span>3</span>
+        <p><span style="color:#FF0000;"><strong class="red">買家服務費用收取準則：本賣場目前收取拍賣品「成交價」之1% ；之後如有變動將提前公告。</strong></span><br>
+        <strong>Extra service fee: All buyers will be charged for 1% of stirke price as an extra service fee on each transaction. Announcements will be made in advance when there is any change.</strong></p>
+        </li>
+        <li class="clearfix"><span>4</span>
+        <p><span style="color:#FF0000;"><strong class="red">新買家下拍『委方自訂起拍價』、『委託拍賣』物品，需繳保證金，保證金將收取欲拍之商品起標價的三成。</strong></span></p>
+        </li>
+        <li class="clearfix"><span>5</span>
+        <p><strong><span style="color:#FF0000;">委託拍賣-流程</span></strong><br>
+        <strong>委託拍賣僅提供來店咨詢 委託拍賣咨詢時間：每日中午12點至下午14點整<br>
+        地點：台北市南港區忠孝東路6段327號1F(捷運昆陽站1號出口)</strong><br>
+        <strong class="red">1.依約定時間前往並攜帶本人證件(身分證 駕照 健保卡 擇二)</strong><br>
+        <strong class="red">2.當場談妥起拍價格並簽訂託拍合約</strong><br>
+        <strong class="red">3.來店2日內上拍，15日內得知委託拍賣結果，1月內拿取現金或退還物品。</strong></p>
+        </li>
+        <li class="clearfix"><span>6</span>
+        <p>買家如有多件得標商品，請按得標先後順序依次領取，不得跳件取貨；如欲留貨，請先完成付款，再為您作保留。</p>
+        </li>
+        <li class="clearfix"><span>7</span>
+        <p>本賣場並非專業搬運公司，如有得標大型商品或過重物件，請自行估量搬運方式，或可參考本賣場提供的配送服務。<br>
+        現場領取該類物件，請恕無法提供太多人力上的幫助。</p>
+        </li>
+        <li class="clearfix"><span>8</span>
+        <p>關於看貨件數，若一個買家擁有多個帳號，以其成交額最高的帳號等級作為看貨標準，無法因擁有多個帳號即要求看每個帳號等級之相應件數以至單次累計看貨件數超標。</p>
+        </li>
+        <li class="clearfix"><span>9</span>
+        <p>拍賣結束前三分鐘內，只要有二個以上的人出價（含已設定的自動出價），拍賣活動也就會持續進行並自動延長至五分鐘。</p>
+        </li>
+        <li class="clearfix"><span>10</span>
+        <p>因人力成本考量，低價拍品：<strong class="red">拍價未達10000元，恕不補充照片。</strong><br>
+        <strong class="red">極低價拍品：拍價未達101元</strong>，恕不回答問題，亦不提供現場查看。<br>
+        <br>
+        <span style="font-size:12px;"><strong>福袋屬於回饋買家驚喜之物，半賣半送物品，因人力成本考量，拍賣中不提供看貨，結標後不提供驗貨，請審慎考慮之後再下拍，煩請各位顧客見諒。</strong></span></p>
+        </li>
+        <li class="clearfix"><span>11</span>
+        <p>拍品結標後，請於7日內完成取貨。<br>
+        已付款物品保留期限，以結拍日起，15天內需取貨完畢。如未履約，本賣場將視為棄拍行為，退款，黑名單。</p>
+        </li>
+        <li class="clearfix"><span>12</span>
+        <p>本拍場商品<strong class="red">一律公開競標</strong>，無設底價，不提前結標，不接受議價，更不接受結標後再議價，亦不提供任何轉手服務，來信商求以上問題恕不回應。</p>
+        </li>
+        <li class="clearfix"><span>13</span>
+        <p>接受下標前來店檢查商品實物，但<strong class="red">無法現場直接購買</strong>，如需購買請自行下標，待商品結標後，即可來店取貨。</p>
+        </li>
+        <li class="clearfix"><span>14</span>
+        <p>網路交易需要雙方信任，買家購買上如有任何疑問，請盡量來電詢問，我們將詳細回覆您的問題。</p>
+        </li>
+        <li class="clearfix"><span>15</span>
+        <p>因新買家(新會員編號)未能悉數了解本拍場的程序規定，特此條列說明。凡新拍賣代號者，<strong class="red">無論是否匯款，得標品項達20件未取或結標金額超過1萬元</strong>，本拍場將暫時停止您的競標出價，鑑於此規定有礙新買家拍賣的不便，<strong class="red">如新買家欲拍賣高價物品，請與我們聯繫相關事宜或委託競拍。</strong></p>
+        </li>
+        <li class="clearfix"><span>16</span>
+        <p>對於新買家的條件限制:拍賣金額、拍賣數量等交易狀況，本拍場做有限度的開放，如超過我們的預留空間，我們將暫停新買家的競標。</p>
+        </li>
+        <li class="clearfix"><span>17 </span>
+        <p>我們雖為舊貨賣家，但要專精各領域的舊貨有其困難，遂只能以忠實呈現商品面貌讓買家作為參考鑑定，<strong class="red">歡迎買家來店先檢視商品狀態後， 再決定是否要下標。</strong>預約查看商品，<strong class="red">請使用會員中心“預約看貨”功能</strong>，方便我們為您進行備貨。</p>
+        </li>
+        <li class="clearfix"><span>18</span>
+        <p>得拍者一律以網站伺服器顯示最高出價者為主。</p>
+        </li>
+    </ul>
+
+    {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ rightfloatmenu }}
+{{ footer }}

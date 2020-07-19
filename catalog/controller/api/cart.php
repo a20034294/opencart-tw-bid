@@ -1,10 +1,12 @@
 <?php
-class ControllerApiCart extends Controller {
-	public function add() {
+class ControllerApiCart extends Controller
+{
+	public function add()
+	{
 		$this->load->language('api/cart');
 
 		$json = array();
-			
+
 		if (!isset($this->session->data['api_id'])) {
 			$json['error']['warning'] = $this->language->get('error_permission');
 		} else {
@@ -73,7 +75,8 @@ class ControllerApiCart extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function edit() {
+	public function edit()
+	{
 		$this->load->language('api/cart');
 
 		$json = array();
@@ -96,7 +99,8 @@ class ControllerApiCart extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function remove() {
+	public function remove()
+	{
 		$this->load->language('api/cart');
 
 		$json = array();
@@ -124,7 +128,8 @@ class ControllerApiCart extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function products() {
+	public function products()
+	{
 		$this->load->language('api/cart');
 
 		$json = array();
@@ -196,7 +201,7 @@ class ControllerApiCart extends Controller {
 						'to_email'         => $voucher['to_email'],
 						'voucher_theme_id' => $voucher['voucher_theme_id'],
 						'message'          => $voucher['message'],
-						'price'            => $this->currency->format($voucher['amount'], $this->session->data['currency']),			
+						'price'            => $this->currency->format($voucher['amount'], $this->session->data['currency']),
 						'amount'           => $voucher['amount']
 					);
 				}
@@ -215,7 +220,7 @@ class ControllerApiCart extends Controller {
 				'taxes'  => &$taxes,
 				'total'  => &$total
 			);
-			
+
 			$sort_order = array();
 
 			$results = $this->model_setting_extension->getExtensions('total');
@@ -229,7 +234,7 @@ class ControllerApiCart extends Controller {
 			foreach ($results as $result) {
 				if ($this->config->get('total_' . $result['code'] . '_status')) {
 					$this->load->model('extension/total/' . $result['code']);
-					
+
 					// We have to put the totals in an array so that they pass by reference.
 					$this->{'model_extension_total_' . $result['code']}->getTotal($total_data);
 				}
@@ -252,7 +257,7 @@ class ControllerApiCart extends Controller {
 				);
 			}
 		}
-		
+
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}

@@ -82,7 +82,7 @@
             <div>
               <div class="caption">
                 {% if product.price %}
-                <p class="price caption-price">{{ product.price }}<br>
+                <p class="price caption-price">{{ product.price }} / {{ product.bid_count }}<br>
                 {% endif %}
                 <a href="{{ product.href }}" class="caption-a">{{ product.name }} </a>
                 <p>{{ product.description }}</p>
@@ -106,4 +106,4 @@
       {{ content_bottom }}</div>
     {{ column_right }}</div>
 </div>
-{{ footer }} 
+{{ footer }}
