@@ -265,6 +265,7 @@
       </div>
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-description" data-toggle="tab">{{ tab_description }}</a></li>
+            <li><a href="#tab-bid-cells" data-toggle="tab">{{ tab_bid_cells }}</a></li>
             {% if attribute_groups %}
             <li><a href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
             {% endif %}
@@ -274,6 +275,7 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-description">{{ description }}</div>
+            <div class="tab-pane" id="tab-bid-cells">{{ description }}</div>
             {% if attribute_groups %}
             <div class="tab-pane" id="tab-specification">
               <table class="table table-bordered">
@@ -294,6 +296,7 @@
                 {% endfor %}
               </table>
             </div>
+
             {% endif %}
             {% if review_status %}
             <div class="tab-pane" id="tab-review">

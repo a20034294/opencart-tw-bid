@@ -1251,7 +1251,24 @@ CREATE TABLE `oc_product_bid` (
   `bid_max` int(11),
   `bid_user_id` int(11),
   PRIMARY KEY (`product_id`),
-  KEY `bid_user_id` (`bid_user_id`)
+  KEY `bid_user_id` (`bid_user_id`),
+  KEY `bid_endtime` (`bid_endtime`),
+  KEY `bid_count` (`bid_count`),
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+DROP TABLE IF EXISTS `oc_product_bid_cell`;
+CREATE TABLE `oc_product_bid_cell` (
+  `bid_cell_id` int(11) AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `bid_time` datetime NOT NULL,
+  `bid_user_id` int(11),
+  `price_now` int(11) NOT NULL,
+  `bid_status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`bid_cell_id`),
+  KEY `bid_user_id` (`bid_user_id`),
+  KEY `product_id` (`product_id`),
+  KEY `bid_time` (`bid_time`)
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 

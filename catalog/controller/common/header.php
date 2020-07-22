@@ -80,9 +80,11 @@ class ControllerCommonHeader extends Controller
 		$data['cart'] = $this->load->controller('common/cart');
 		$data['menu'] = $this->load->controller('common/menu');
 
+		$data['rightfloatmenu'] = $this->load->controller('common/rightfloatmenu');
 
 
-		if ($popo) {
+
+		if (true) {
 			$data['popo'] = true;
 		}
 

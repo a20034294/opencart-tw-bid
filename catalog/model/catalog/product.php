@@ -575,6 +575,37 @@ class ModelCatalogProduct extends Model
 			"', bid_user_id = '" . (int) $data['bid_user_id'] .
 			"' WHERE product_id = '" . (int) $product_id . "'");
 
+		$this->db->query("INSERT INTO`" . DB_PREFIX . "product_bid_cell` SET " .
+			"product_id = '" . (int) $product_id .
+			"', bid_time = '" . $data['bid_time'] .
+			"', bid_user_id = '" . (int) $data['bid_user_id'] .
+			"', price_now = '" . (int) $data['price_now'] .
+			"', bid_status = '" . (int) $data['bid_status'] . "'");
+
 		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET price = '" . (float) $data['price_now'] . "', date_modified = NOW() WHERE product_id = '" . (int) $product_id . "'");
+	}
+
+	public function getProductBidCells($data)
+	{
+		$query_where = '';
+		if (isset($data['product_id'])) {
+			$query_where .= "product_id = '" . (int) $data['product_id'] . "' AND ";
+		}
+		if (isset($data['bid_user_id'])) {
+			$query_where .= "bid_user_id = '" . (int) $data['bid_user_id'] . "' AND ";
+		}
+		if (isset($data['bid_status'])) {
+			$query_where .= "bid_status = '" . (int) $data['bid_status'] . "' AND ";
+		}
+
+		if ('' == $query_where) {
+			return null;
+		}
+
+		$query_where .= 'TRUE';
+
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product_bid_cell` WHERE " . $query_where);
+
+		return $query->rows;
 	}
 }

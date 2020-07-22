@@ -23,6 +23,16 @@ class ControllerCheckoutBid extends Controller
 
         $this->load->model('catalog/product');
         $data = $this->model_catalog_product->getProductBid($product_id);
+        $time_now = date('Y-m-d H:i:s', time());
+
+        if ($time_now > $data['bid_endtime']) {
+            $json['error']['time_exceed'] = '超過截標時間';
+
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($json));
+            return;
+        }
+        $data['bid_time'] = $time_now;
 
         if (isset($this->request->post['new_price'])) {
             $new_price = (int) $this->request->post['new_price'];
