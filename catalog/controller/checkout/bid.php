@@ -47,13 +47,23 @@ class ControllerCheckoutBid extends Controller
             $this->response->setOutput(json_encode($json));
             return;
         }
+        $this->config->load('bid');
 
         if (isset($this->request->post['bid_auto'])) {
             $bid_auto = (int) $this->request->post['bid_auto'];
+            $data['bid_auto'] = AUTO_BID;
         } else {
             $bid_auto = 0;
+            $data['bid_auto'] = NOT_AUTO_BID;
         }
 
+        if ($this->customer->getId() == $data['bid_user_id'] && $new_price <= $data['price_max']) {
+            $json['error']['duplicate'] = '出價低於自身出價';
+
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($json));
+            return;
+        }
 
         $win_is_new = false;
 

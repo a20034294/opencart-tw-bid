@@ -7,3 +7,6 @@ define("STATUS_END_BID", 2);
 define("STATUS_WIN_BID", 3);
 define("STATUS_LOSE_BID", 4);
 define("STATUS_ABANDON_BID", 5);
+
+define("NOT_AUTO_BID", 0);
+define("AUTO_BID", 1);

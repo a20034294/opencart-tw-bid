@@ -1,4 +1,7 @@
 <?php
+
+use Symfony\Component\Validator\Constraints\IsTrue;
+
 class ControllerProductProduct extends Controller
 {
 	private $error = array();
@@ -243,6 +246,7 @@ class ControllerProductProduct extends Controller
 			$data['reward'] = $product_info['reward'];
 			$data['points'] = $product_info['points'];
 			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
+			$data['bid_history'] = $this->load->controller('product/bid_history', ['product_id' => $this->request->get['product_id']]);
 
 			if ($product_info['quantity'] <= 0) {
 				$data['stock'] = $product_info['stock_status'];

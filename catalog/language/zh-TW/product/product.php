@@ -43,7 +43,7 @@ $_['entry_bad']                = '差評';
 $_['tab_description']          = '商品描述';
 $_['tab_attribute']            = '商品屬性';
 $_['tab_review']               = '商品評論 (已有 %s 筆商品評論)';
-$_['tab_bid_cells']            = '競標紀錄';
+$_['tab_bid_history']            = '競標紀錄';
 
 // Error
 $_['error_name']               = '警告：評論者姓名必須是 3 到 25 個字！';

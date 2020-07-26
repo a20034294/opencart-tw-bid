@@ -580,7 +580,8 @@ class ModelCatalogProduct extends Model
 			"', bid_time = '" . $data['bid_time'] .
 			"', bid_user_id = '" . (int) $data['bid_user_id'] .
 			"', price_now = '" . (int) $data['price_now'] .
-			"', bid_status = '" . (int) $data['bid_status'] . "'");
+			"', bid_status = '" . (int) $data['bid_status'] .
+			"', bid_auto = '" . (int) $data['bid_auto'] . "'");
 
 		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET price = '" . (float) $data['price_now'] . "', date_modified = NOW() WHERE product_id = '" . (int) $product_id . "'");
 	}
