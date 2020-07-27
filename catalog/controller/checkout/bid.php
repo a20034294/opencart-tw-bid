@@ -1,6 +1,12 @@
 <?php
 class ControllerCheckoutBid extends Controller
 {
+    private function swap(&$x, &$y)
+    {
+        $tmp = $x;
+        $x = $y;
+        $y = $tmp;
+    }
     public function add()
     {
         $json = array();
@@ -32,7 +38,6 @@ class ControllerCheckoutBid extends Controller
             $this->response->setOutput(json_encode($json));
             return;
         }
-        $data['bid_time'] = $time_now;
 
         if (isset($this->request->post['new_price'])) {
             $new_price = (int) $this->request->post['new_price'];
@@ -47,17 +52,8 @@ class ControllerCheckoutBid extends Controller
             $this->response->setOutput(json_encode($json));
             return;
         }
-        $this->config->load('bid');
 
-        if (isset($this->request->post['bid_auto'])) {
-            $bid_auto = (int) $this->request->post['bid_auto'];
-            $data['bid_auto'] = AUTO_BID;
-        } else {
-            $bid_auto = 0;
-            $data['bid_auto'] = NOT_AUTO_BID;
-        }
-
-        if ($this->customer->getId() == $data['bid_user_id'] && $new_price <= $data['price_max']) {
+        if ($this->customer->getId() == $data['bid_user_id'] && $new_price <= $data['bid_max']) {
             $json['error']['duplicate'] = '出價低於自身出價';
 
             $this->response->addHeader('Content-Type: application/json');
@@ -65,32 +61,41 @@ class ControllerCheckoutBid extends Controller
             return;
         }
 
-        $win_is_new = false;
 
-        if ($bid_auto == 1) { // 自動出價
-            while ($data['price_now'] <= $data['bid_max'] && $data['price_now'] <= $new_price) {
-                $win_is_new = !$win_is_new;
-                $data['price_now'] += $data['price_minadd'];
-            }
-            if ($win_is_new) {
-                $data['bid_count'] = $data['bid_count'] + 1;
-            } else {
-                $data['bid_count'] = $data['bid_count'] + 2;
-            }
-        } else { // 直接出價
-            if ($new_price + $data['price_minadd'] <= $data['bid_max']) {
-                $data['price_now'] = $new_price + $data['price_minadd'];
-                $data['bid_count'] = $data['bid_count'] + 2;
-            } else {
-                $data['price_now'] = $new_price;
-                $data['bid_count'] = $data['bid_count'] + 1;
-                $win_is_new = true;
-            }
+
+        $data['bid_time'] = $time_now;
+
+        $this->config->load('bid');
+        if ($this->request->post['bid_auto'] == 1) {
+            $data['bid_auto'] = AUTO_BID;
+        } else {
+            $data['bid_auto'] = NOT_AUTO_BID;
         }
 
-        if ($win_is_new) {
+        $new_bid_user = $this->customer->getId();
+
+        if ($new_bid_user == $data['bid_user_id']) {
             $data['bid_max'] = $new_price;
-            $data['bid_user_id'] = $this->customer->getId();
+            $this->model_catalog_product->newProductBid($product_id, $data);
+            $json['success'] = 'success';
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($json));
+            return;
+        }
+
+        $data['price_now'] = $data['bid_auto'] ? $data['price_now'] + $data['price_minadd'] : $new_price;
+        $data['bid_count'] = $data['bid_count'] + 1;
+        $this->swap($data['bid_user_id'], $new_bid_user);
+        $this->swap($data['bid_max'], $new_price);
+        $this->model_catalog_product->addProductBidCell($product_id, $data);
+
+        while ($data['price_now'] + $data['price_minadd'] <= $new_price) {
+            $data['bid_auto'] = 1;
+            $data['price_now'] += $data['price_minadd'];
+            $data['bid_count'] = $data['bid_count'] + 1;
+            $this->swap($data['bid_user_id'], $new_bid_user);
+            $this->swap($data['bid_max'], $new_price);
+            $this->model_catalog_product->addProductBidCell($product_id, $data);
         }
 
         $this->model_catalog_product->newProductBid($product_id, $data);

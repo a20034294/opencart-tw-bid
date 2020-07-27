@@ -159,15 +159,14 @@ $_['text_not_bid']				= '定價出售';
 
 			$this->db->query("INSERT INTO " . DB_PREFIX .
 				"product_bid SET product_id = '" . (int)$product_id .
-				"', price_now = '" . $price_now .
+				"', price_now = '" . max($price_now, $data['price_start']) .
 				"', price_start = '" . (int)$data['price_start'] .
 				"', price_minadd = '" . (int)$data['price_minadd'] .
 				"', bid_count = '" . $bid_count .
 				"', bid_status = '" . (int)$data['bid_status'] .
-                "', bid_max = '" . (int)$data['bid_max'] .
-                "', bid_user_id = '" . (int)$data['bid_user_id'] .
-				"', bid_endtime = '" . $this->db->escape($data['bid_endtime']) . "'"
-			);
+				"', bid_max = '" . (int)$data['bid_max'] .
+				"', bid_user_id = '" . (int)$data['bid_user_id'] .
+				"', bid_endtime = '" . $this->db->escape($data['bid_endtime']) . "'");
 		}
         ]]>
             </add>

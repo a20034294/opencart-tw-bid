@@ -565,7 +565,6 @@ class ModelCatalogProduct extends Model
 
 	public function newProductBid($product_id, $data)
 	{
-		$status = array();
 		$this->db->query("UPDATE `" . DB_PREFIX . "product_bid` SET " .
 			"price_now = '" . (int) $data['price_now'] .
 			"', price_minadd = '" . (int) $data['price_minadd'] .
@@ -575,6 +574,11 @@ class ModelCatalogProduct extends Model
 			"', bid_user_id = '" . (int) $data['bid_user_id'] .
 			"' WHERE product_id = '" . (int) $product_id . "'");
 
+		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET price = '" . (float) $data['price_now'] . "', date_modified = NOW() WHERE product_id = '" . (int) $product_id . "'");
+	}
+
+	public function addProductBidCell($product_id, $data)
+	{
 		$this->db->query("INSERT INTO`" . DB_PREFIX . "product_bid_cell` SET " .
 			"product_id = '" . (int) $product_id .
 			"', bid_time = '" . $data['bid_time'] .
@@ -582,8 +586,6 @@ class ModelCatalogProduct extends Model
 			"', price_now = '" . (int) $data['price_now'] .
 			"', bid_status = '" . (int) $data['bid_status'] .
 			"', bid_auto = '" . (int) $data['bid_auto'] . "'");
-
-		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET price = '" . (float) $data['price_now'] . "', date_modified = NOW() WHERE product_id = '" . (int) $product_id . "'");
 	}
 
 	public function getProductBidCells($data)
