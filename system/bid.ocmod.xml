@@ -17,6 +17,7 @@ $_['text_price_minadd']			= '出價增額';
 $_['text_bid_endtime']			= '結標時間';
 $_['text_is_bid']				= '拍賣出售';
 $_['text_not_bid']				= '定價出售';
+$_['text_end_bid']				= '已結標';
             ]]>
             </add>
         </operation>
@@ -39,11 +40,17 @@ $_['text_not_bid']				= '定價出售';
                 <div class="col-sm-10">
                   <select name="bid_status" id="input-bid-status" class="form-control">
                   {% if bid_status == 1 %}
+                    <option value="2">{{ text_end_bid }}</option>
                     <option value="1" selected="selected">{{ text_is_bid }}</option>
                     <option value="0">{{ text_not_bid }}</option>
-                  {% else %}
+                  {% elseif bid_status == 0 %}
+                    <option value="2">{{ text_end_bid }}</option>
                     <option value="1">{{ text_is_bid }}</option>
                     <option value="0" selected="selected">{{ text_not_bid }}</option>
+                  {% elseif bid_status == 2 %}
+                    <option value="2"selected="selected">{{ text_end_bid }}</option>
+                    <option value="1">{{ text_is_bid }}</option>
+                    <option value="0">{{ text_not_bid }}</option>
                   {% endif %}
                   </select>
                 </div>

@@ -563,6 +563,14 @@ class ModelCatalogProduct extends Model
 		return $query->row;
 	}
 
+	public function getProductEndBid($time)
+	{
+		$this->config->load('bid');
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product_bid` WHERE bid_endtime <= '" . $time . "' AND bid_status = " . STATUS_DURRING_BID);
+
+		return $query->rows;
+	}
+
 	public function newProductBid($product_id, $data)
 	{
 		$this->db->query("UPDATE `" . DB_PREFIX . "product_bid` SET " .
@@ -607,8 +615,25 @@ class ModelCatalogProduct extends Model
 
 		$query_where .= 'TRUE';
 
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product_bid_cell` WHERE " . $query_where);
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "product_bid_cell` WHERE " . $query_where . " ORDER BY bid_cell_id DESC");
 
 		return $query->rows;
+	}
+
+	public function updateProductBidCell($data)
+	{
+		$this->db->query("UPDATE`" . DB_PREFIX . "product_bid_cell` SET " .
+			"product_id = '" . (int) $data['product_id'] .
+			"', bid_time = '" . $data['bid_time'] .
+			"', bid_user_id = '" . (int) $data['bid_user_id'] .
+			"', price_now = '" . (int) $data['price_now'] .
+			"', bid_status = '" . (int) $data['bid_status'] .
+			"', bid_auto = '" . (int) $data['bid_auto'] .
+			"' WHERE bid_cell_id = '" . (int)$data['bid_cell_id'] . "'");
+	}
+
+	public function closeProduct($product_id)
+	{
+		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET status = '" . 0 . "', date_modified = NOW() WHERE product_id = '" . (int) $product_id . "'");
 	}
 }

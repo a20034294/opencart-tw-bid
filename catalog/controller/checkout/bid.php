@@ -54,7 +54,7 @@ class ControllerCheckoutBid extends Controller
         }
 
         if ($this->customer->getId() == $data['bid_user_id'] && $new_price <= $data['bid_max']) {
-            $json['error']['duplicate'] = '出價低於自身出價';
+            $json['error']['duplicate'] = '出價低於自身自動出價';
 
             $this->response->addHeader('Content-Type: application/json');
             $this->response->setOutput(json_encode($json));
@@ -76,6 +76,11 @@ class ControllerCheckoutBid extends Controller
 
         if ($new_bid_user == $data['bid_user_id']) {
             $data['bid_max'] = $new_price;
+            if (!$data['bid_auto']) {
+                $data['price_now'] = $new_price;
+                $data['bid_count'] = $data['bid_count'] + 1;
+                $this->model_catalog_product->addProductBidCell($product_id, $data);
+            }
             $this->model_catalog_product->newProductBid($product_id, $data);
             $json['success'] = 'success';
             $this->response->addHeader('Content-Type: application/json');
